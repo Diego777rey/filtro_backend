@@ -1,0 +1,30 @@
+type Inventario{
+    id: ID!
+    fechaMovimiento: String!
+    tipoMovimiento: String!
+    cantidad: Int!
+    stockAnterior: Int!
+    stockNuevo: Int!
+    motivo: String!
+    producto: Producto!
+    depositero: Depositero!
+    ventaDetalle: VentaDetalle
+}
+input InputInventario{
+    fechaMovimiento: String!
+    tipoMovimiento: String!
+    cantidad: Int!
+    stockAnterior: Int!
+    stockNuevo: Int!
+    motivo: String!
+    productoId: ID!
+    depositeroId: ID!
+    ventaDetalleId: ID
+}
+type PaginadorInventario{
+    items: [Inventario!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

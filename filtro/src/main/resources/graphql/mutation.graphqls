@@ -1,0 +1,13 @@
+type Mutation {
+    createVendedor(inputVendedor: InputVendedor!): Vendedor
+    updateVendedor(id: ID!, inputVendedor: InputVendedor!): Vendedor
+    deleteVendedor(id: ID!): Vendedor
+
+    createCliente(inputCliente: InputCliente!): Cliente
+    updateCliente(id: ID!, inputCliente: InputCliente!): Cliente
+    deleteCliente(id: ID!): Cliente
+
+    createPersona(inputPersona: InputPersona!): Persona
+    updatePersona(id: ID!, inputPersona: InputPersona!): Persona
+    deletePersona(id: ID!): Persona
+}

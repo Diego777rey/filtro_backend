@@ -1,0 +1,28 @@
+type Producto{
+    id: ID!
+    codigoProducto: String!
+    nombre: String!
+    descripcion: String
+    precio: Float
+    stock: Int
+    productoEstado: String!
+    categoria: Categoria
+    proveedor: Proveedor
+}
+input InputProducto{
+    codigoProducto: String!
+    nombre: String!
+    descripcion: String
+    precio: Float
+    stock: Int
+    productoEstado: String!
+    categoriaId: ID
+    proveedorId: ID
+}
+type PaginadorProducto{
+    items: [Producto!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

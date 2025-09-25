@@ -1,0 +1,20 @@
+type RegistrarHorario{
+    id: ID!
+    fechaHora: String!
+    turno: String!
+    horarios: String!
+    persona: Persona!
+}
+input InputRegistrarHorario{
+    fechaHora: String!
+    turno: String!
+    horarios: String!
+    personaId: ID!
+}
+type PaginadorRegistrarHorario{
+    items: [RegistrarHorario!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

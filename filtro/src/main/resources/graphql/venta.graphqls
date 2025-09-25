@@ -1,0 +1,46 @@
+type Venta{
+    id: ID!
+    codigoVenta: String!
+    fechaVenta: String!
+    total: Float!
+    tipoVenta: String!
+    estadoVenta: String!
+    cliente: Cliente
+    vendedor: Vendedor
+    cajero: Cajero
+    factura: Factura
+}
+input InputVenta{
+    codigoVenta: String!
+    fechaVenta: String!
+    total: Float!
+    tipoVenta: String!
+    estadoVenta: String!
+    clienteId: ID
+    vendedorId: ID
+    cajeroId: ID
+}
+type VentaDetalle{
+    id: ID!
+    cantidad: Int!
+    precioUnitario: Float!
+    descuento: Float!
+    subtotal: Float!
+    venta: Venta!
+    producto: Producto!
+}
+input InputVentaDetalle{
+    cantidad: Int!
+    precioUnitario: Float!
+    descuento: Float!
+    subtotal: Float!
+    ventaId: ID!
+    productoId: ID!
+}
+type PaginadorVenta{
+    items: [Venta!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

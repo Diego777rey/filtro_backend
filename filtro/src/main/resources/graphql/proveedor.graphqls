@@ -1,0 +1,22 @@
+type Proveedor{
+    id: ID!
+    nombre: String!
+    ruc: String!
+    rubro: String!
+    contacto: String!
+    persona: Persona!
+}
+input InputProveedor{
+    nombre: String!
+    ruc: String!
+    rubro: String!
+    contacto: String!
+    personaId: ID!
+}
+type PaginadorProveedor{
+    items: [Proveedor!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

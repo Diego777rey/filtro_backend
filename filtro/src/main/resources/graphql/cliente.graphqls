@@ -1,0 +1,18 @@
+type Cliente{
+    id: ID
+    codigoCliente: String
+    fechaRegistro: String
+    persona: Persona
+}
+type PaginadorCliente {
+    items: [Cliente!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}
+input InputCliente {
+    codigoCliente: String!
+    fechaRegistro: String!
+    personaId: ID!
+}

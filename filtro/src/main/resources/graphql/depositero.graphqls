@@ -1,0 +1,28 @@
+type Depositero {
+    id: ID!
+    codigoDepositero: String!
+    fechaIngreso: String!
+    turno: String!
+    almacenAsignado: String!
+    supervisor: String!
+    horario: String!
+    estado: String!
+    persona: Persona!
+}
+input InputDepositero {
+    codigoDepositero: String!
+    fechaIngreso: String!
+    turno: String!
+    almacenAsignado: String!
+    supervisor: String!
+    horario: String!
+    estado: String!
+    personaId: ID!
+}
+type PaginadorDepositero {
+    items: [Depositero!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

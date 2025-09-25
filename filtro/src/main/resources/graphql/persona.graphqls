@@ -1,0 +1,27 @@
+type Rol {
+    id: ID!
+    tipoPersona: String!
+}
+type Persona {
+    id: ID!
+    nombre: String!
+    apellido: String!
+    direccion: String
+    telefono: String
+    email: String
+    documento: String
+    roles: [Rol!]!
+    estadoPersona: String
+    fechaNacimiento: String
+}
+input InputPersona {
+    nombre: String!
+    apellido: String!
+    direccion: String
+    telefono: String
+    email: String
+    documento: String
+    rolIds: [ID!]!
+    estadoPersona: String
+    fechaNacimiento: String
+}

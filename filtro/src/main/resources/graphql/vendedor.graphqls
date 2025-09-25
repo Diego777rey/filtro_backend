@@ -1,0 +1,20 @@
+type Vendedor{
+    id: ID
+    codigoVendedor: String
+    comision: Float
+    sucursal: String
+    persona: Persona
+}
+type PaginadorVendedor {
+    items: [Vendedor!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}
+input InputVendedor {
+    codigoVendedor: String
+    comision: Float
+    sucursal: String
+    personaId: ID
+}

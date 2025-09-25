@@ -1,0 +1,8 @@
+type MutationResult {
+    success: Boolean!
+    errors: [FieldError!]
+}
+type FieldError {
+    field: String
+    message: String!
+}

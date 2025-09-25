@@ -1,0 +1,15 @@
+type Query {
+    findVendedorById(vendedorId: ID!): Vendedor
+    findAllVendedores: [Vendedor!]!
+    findOneVendedor(id: ID!): Vendedor
+    findVendedoresPaginated(page: Int!, size: Int!, search: String): PaginadorCliente
+
+    findClienteById(ClienteId: ID!): Cliente
+    findAllClientes: [Cliente!]!
+    findOneCliente(id: ID!): Cliente
+    findClientesPaginated(page: Int!, size: Int!, search: String): PaginadorCliente
+
+    findPersonaById(personaId: ID!): Persona
+    findAllPersonas: [Persona!]!
+    findPersonasByNombre(nombre: String!): [Persona!]!
+}

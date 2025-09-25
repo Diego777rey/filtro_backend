@@ -1,0 +1,42 @@
+type Factura{
+    id: ID!
+    numeroFactura: String!
+    timbrado: String!
+    establecimiento: String!
+    puntoExpedicion: String!
+    fechaEmision: String!
+    fechaVencimiento: String!
+    subTotal: Float!
+    iva10: Float!
+    iva5: Float!
+    total: Float!
+    estado: String! # PENDIENTE, PAGADA, ANULADA, CONTABILIZADA
+    tipoFactura: String! # CONTADO, CREDITO
+    condicionVenta: String! # EFECTIVO, TARJETA, TRANSFERENCIA
+    venta: Venta
+    cliente: Cliente
+}
+input InputFactura{
+    numeroFactura: String!
+    timbrado: String!
+    establecimiento: String!
+    puntoExpedicion: String!
+    fechaEmision: String!
+    fechaVencimiento: String!
+    subTotal: Float!
+    iva10: Float!
+    iva5: Float!
+    total: Float!
+    estado: String! # PENDIENTE, PAGADA, ANULADA, CONTABILIZADA
+    tipoFactura: String! # CONTADO, CREDITO
+    condicionVenta: String! # EFECTIVO, TARJETA, TRANSFERENCIA
+    ventaId: ID
+    clienteId: ID
+}
+type PaginadorFactura {
+    items: [Factura!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

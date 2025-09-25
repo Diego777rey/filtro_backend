@@ -1,0 +1,24 @@
+type Caja{
+    id: ID!
+    codigoCaja: String!
+    descripcion: String
+    ubicacion: String
+    estadoCaja: String!
+    saldoInicial: Float
+    saldoActual: Float
+}
+input InputCaja{
+    codigoCaja: String!
+    descripcion: String
+    ubicacion: String
+    estadoCaja: String!
+    saldoInicial: Float
+    saldoActual: Float
+}
+type PaginadorCaja {
+    items: [Caja!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}
