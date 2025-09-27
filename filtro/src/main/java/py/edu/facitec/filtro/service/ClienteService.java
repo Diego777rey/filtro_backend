@@ -30,11 +30,11 @@ public class ClienteService {
     @Autowired
     private PaginadorService paginadorService;
 
-    // Formato de fecha esperado: "yyyy-MM-dd"
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    // Convertir String a Date
+    // ---------------- MÉTODO PARA CONVERTIR STRING A DATE ----------------
     private Date parseFecha(String fechaStr) {
+        if (fechaStr == null || fechaStr.trim().isEmpty()) return null;
         try {
             return dateFormat.parse(fechaStr);
         } catch (ParseException e) {
@@ -42,7 +42,7 @@ public class ClienteService {
         }
     }
 
-    // Crear cliente
+    // ---------------- CREAR CLIENTE ----------------
     public Cliente createCliente(InputCliente input) {
         Cliente c = new Cliente();
         c.setCodigoCliente(input.getCodigoCliente());
@@ -57,7 +57,7 @@ public class ClienteService {
         return clienteRepository.save(c);
     }
 
-    // Actualizar cliente
+    // ---------------- ACTUALIZAR CLIENTE ----------------
     public Cliente updateCliente(Long id, InputCliente input) {
         Cliente c = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
@@ -74,7 +74,7 @@ public class ClienteService {
         return clienteRepository.save(c);
     }
 
-    // Eliminar cliente
+    // ---------------- ELIMINAR CLIENTE ----------------
     public Cliente deleteCliente(Long id) {
         Cliente c = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
@@ -82,22 +82,25 @@ public class ClienteService {
         return c;
     }
 
-    // Buscar por ID
+    // ---------------- BUSCAR CLIENTE POR ID ----------------
     public Optional<Cliente> findClienteById(Long id) {
         return clienteRepository.findById(id);
     }
 
-    // Paginación y búsqueda con rol CLIENTE (incluye vendedores con rol CLIENTE)
+    // ---------------- PAGINACIÓN Y BÚSQUEDA POR ROL CLIENTE ----------------
     public PaginadorDto<Cliente> findClientesPaginated(int page, int size, String search) {
 
         BiFunction<String, Pageable, Page<Cliente>> searchFunction = (s, pageable) -> {
+            java.util.List<TipoPersona> roles = java.util.List.of(TipoPersona.CLIENTE, TipoPersona.VENDEDOR, TipoPersona.ADMINISTRADOR, TipoPersona.CAJERO, TipoPersona.PROVEEDOR, TipoPersona.DEPOSITERO);
+
             if (s == null || s.isEmpty()) {
-                return clienteRepository.findByPersonaRol(TipoPersona.CLIENTE, pageable);
+                return clienteRepository.findByPersonaRolesIn(roles, pageable);
             } else {
-                return clienteRepository.findByPersonaRolAndNombreContaining(TipoPersona.CLIENTE, s, pageable);
+                return clienteRepository.findByPersonaRolesInAndNombreContaining(roles, s, pageable);
             }
         };
 
         return paginadorService.paginarConFiltro(searchFunction, search, page, size);
     }
+
 }

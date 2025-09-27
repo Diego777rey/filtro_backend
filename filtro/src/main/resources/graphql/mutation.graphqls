@@ -3,11 +3,44 @@ type Mutation {
     updateVendedor(id: ID!, inputVendedor: InputVendedor!): Vendedor
     deleteVendedor(id: ID!): Vendedor
 
+    createProveedor(inputProveedor: InputProveedor!): Proveedor
+    updateProveedor(id: ID!, inputProveedor: InputProveedor!): Proveedor
+    deleteProveedor(id: ID!): Proveedor
+
+    createRegistrarHorario(inputRegistrarHorario: InputRegistrarHorario!): RegistrarHorario
+    updateRegistrarHorario(id: ID!, inputRegistrarHorario: InputRegistrarHorario!): RegistrarHorario
+    deleteRegistrarHorario(id: ID!): RegistrarHorario
+
+    saveCategoria(inputCategoria: InputCategoria!): Categoria
+    updateCategoria(id: ID!, inputCategoria: InputCategoria!): Categoria
+    deleteCategoria(id: ID!): Categoria
+
+    saveCaja(inputCaja: InputCaja!): Caja
+    updateCaja(id: ID!, inputCaja: InputCaja!): Caja
+    deleteCaja(id: ID!): Caja
+
     createCliente(inputCliente: InputCliente!): Cliente
     updateCliente(id: ID!, inputCliente: InputCliente!): Cliente
     deleteCliente(id: ID!): Cliente
 
+    createProducto(inputProducto: InputProducto!): Producto
+    updateProducto(id: ID!, inputProducto: InputProducto!): Producto
+    deleteProducto(id: ID!): Producto
+
+    createCajero(inputCajero: InputCajero!): Cajero
+    updateCajero(id: ID!, inputCajero: InputCajero!): Cajero
+    deleteCajero(id: ID!): Cajero
+
+    createDepositero(inputDepositero: InputDepositero!): Depositero
+    updateDepositero(id: ID!, inputDepositero: InputDepositero!): Depositero
+    deleteDepositero(id: ID!): Depositero
+
     createPersona(inputPersona: InputPersona!): Persona
     updatePersona(id: ID!, inputPersona: InputPersona!): Persona
     deletePersona(id: ID!): Persona
+
+    crearUsuario(input: UsuarioInput!): Usuario
+    actualizarUsuario(id: ID!, input: UsuarioInput!): Usuario
+    eliminarUsuario(id: ID!): Usuario
+    login(nombre: String!, contrasenha: String!): AuthPayload
 }

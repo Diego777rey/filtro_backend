@@ -21,8 +21,8 @@ public class VendedorController {
     // ------------------- QUERIES -------------------
 
     @QueryMapping
-    public Vendedor findVendedorById(@Argument Long id) {
-        Optional<Vendedor> v = vendedorService.findVendedorById(id);
+    public Vendedor findVendedorById(@Argument Long vendedorId) {
+        Optional<Vendedor> v = vendedorService.findVendedorById(vendedorId);
         return v.orElse(null);
     }
 

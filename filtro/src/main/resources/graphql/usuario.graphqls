@@ -1,0 +1,27 @@
+type Usuario{
+    id: ID!
+    contrasenha: String!
+    persona: Persona
+    roles: [Rol!]!
+
+}
+input UsuarioInput{
+    contrasenha: String!
+    personaId: ID!
+    roleIds: [ID!]!
+}
+type PaginadorUsuario {
+    items: [Usuario!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}
+type AuthPayload {
+    token: String!       # JWT
+    usuario: Usuario!      # Información del usuario autenticado
+}
+input LoginInput {
+    nombre: String!
+    contrasenha: String!
+}

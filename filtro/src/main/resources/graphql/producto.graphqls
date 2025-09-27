@@ -3,7 +3,8 @@ type Producto{
     codigoProducto: String!
     nombre: String!
     descripcion: String
-    precio: Float
+    precioCompra: Float
+    precioVenta: Float
     stock: Int
     productoEstado: String!
     categoria: Categoria
@@ -13,7 +14,8 @@ input InputProducto{
     codigoProducto: String!
     nombre: String!
     descripcion: String
-    precio: Float
+    precioCompra: Float
+    precioVenta: Float
     stock: Int
     productoEstado: String!
     categoriaId: ID

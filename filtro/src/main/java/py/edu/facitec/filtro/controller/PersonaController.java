@@ -6,6 +6,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import py.edu.facitec.filtro.dto.InputPersona;
+import py.edu.facitec.filtro.dto.PaginadorDto;
 import py.edu.facitec.filtro.entity.Persona;
 import py.edu.facitec.filtro.service.PersonaService;
 
@@ -25,7 +26,6 @@ public class PersonaController {
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
     }
 
-
     @QueryMapping
     public List<Persona> findAllPersonas() {
         return personaService.findAllPersonas();
@@ -34,6 +34,16 @@ public class PersonaController {
     @QueryMapping
     public List<Persona> findPersonasByNombre(@Argument String nombre) {
         return personaService.findPersonasByNombre(nombre);
+    }
+
+    // 🔹 Query principal de personas paginadas
+    @QueryMapping
+    public PaginadorDto<Persona> findPersonasPaginated(
+            @Argument int page,
+            @Argument int size,
+            @Argument String search
+    ) {
+        return personaService.findAllPaginated(page, size, search);
     }
 
     // ---------------- MUTATIONS ----------------

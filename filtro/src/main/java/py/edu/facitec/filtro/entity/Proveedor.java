@@ -5,24 +5,31 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
 @Table(name = "proveedor")
 @NoArgsConstructor
-@AllArgsConstructor//esto se utliza para que no tengamos que construir los constructores ni los getters y setters
+@AllArgsConstructor
 @Builder
 public class Proveedor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ruc;
-    private String rubro;
-    private String contacto;
+    // Datos del proveedor (puede ser empresa o persona)
+    private String ruc;               // RUC o cédula
+    private String razonSocial;       // Nombre de empresa o nombre completo
+    private String rubro;             // Actividad principal
+    private String telefono;
+    private String email;
 
-    @OneToOne
-    @JoinColumn(name = "persona_id")
-    private Persona persona;
+    // Contacto principal (opcional)
+    @ManyToOne
+    @JoinColumn(name = "contacto_id")
+    private Persona persona;          // Persona de contacto dentro de la empresa
+
+    // Observaciones o notas adicionales
+    private String observaciones;
 }

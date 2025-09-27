@@ -1,4 +1,4 @@
-package py.edu.facitec.filtro.util;
+/*package py.edu.facitec.filtro.util;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -27,3 +27,4 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 }
+*/

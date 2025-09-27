@@ -24,7 +24,8 @@ public class Producto {
     @Column(nullable = false)
     private String nombre;
     private String descripcion;
-    private BigDecimal precio;
+    private BigDecimal precioCompra;
+    private BigDecimal precioVenta;
     private Integer stock;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

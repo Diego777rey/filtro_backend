@@ -21,8 +21,8 @@ public class ClienteController {
     // ------------------- QUERIES -------------------
 
     @QueryMapping
-    public Cliente findClienteById(@Argument Long id) {
-        Optional<Cliente> c = clienteService.findClienteById(id);
+    public Cliente findClienteById(@Argument("clienteId") Long clienteId) {
+        Optional<Cliente> c = clienteService.findClienteById(clienteId);
         return c.orElse(null);
     }
 

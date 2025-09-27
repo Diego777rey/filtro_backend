@@ -5,5 +5,6 @@ public enum TipoPersona {
     VENDEDOR,
     PROVEEDOR,
     CLIENTE,
-    DEPOSITERO
+    DEPOSITERO,
+    ADMINISTRADOR,
 }

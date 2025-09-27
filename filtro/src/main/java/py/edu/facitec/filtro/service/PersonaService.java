@@ -1,8 +1,11 @@
 package py.edu.facitec.filtro.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import py.edu.facitec.filtro.dto.InputPersona;
+import py.edu.facitec.filtro.dto.PaginadorDto;
 import py.edu.facitec.filtro.entity.Persona;
 import py.edu.facitec.filtro.entity.Rol;
 import py.edu.facitec.filtro.repository.PersonaRepository;
@@ -10,11 +13,8 @@ import py.edu.facitec.filtro.repository.RolRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.function.BiFunction;
 
 @Service
 public class PersonaService {
@@ -25,14 +25,14 @@ public class PersonaService {
     @Autowired
     private RolRepository rolRepository;
 
-    // ---------------- CREAR PERSONA ----------------
+    @Autowired
+    private PaginadorService paginadorService;
     public Persona createPersona(InputPersona input) {
         Set<Rol> roles = new HashSet<>();
         if (input.getRolIds() != null && !input.getRolIds().isEmpty()) {
             roles = new HashSet<>(rolRepository.findAllById(input.getRolIds()));
         }
 
-        // Convertir String a Date
         Date fechaNacimiento = parseFecha(input.getFechaNacimiento());
 
         Persona persona = Persona.builder()
@@ -43,19 +43,16 @@ public class PersonaService {
                 .email(input.getEmail())
                 .documento(input.getDocumento())
                 .estadoPersona(input.getEstadoPersona())
-                .fechaNacimiento(fechaNacimiento) // Usar el Date convertido
+                .fechaNacimiento(fechaNacimiento)
                 .roles(roles)
                 .build();
 
         return personaRepository.save(persona);
     }
-
-    // ---------------- ACTUALIZAR PERSONA ----------------
     public Persona updatePersona(Long id, InputPersona input) {
         Persona persona = personaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
 
-        // Convertir String a Date
         Date fechaNacimiento = parseFecha(input.getFechaNacimiento());
 
         persona.setNombre(input.getNombre());
@@ -65,7 +62,7 @@ public class PersonaService {
         persona.setEmail(input.getEmail());
         persona.setDocumento(input.getDocumento());
         persona.setEstadoPersona(input.getEstadoPersona());
-        persona.setFechaNacimiento(fechaNacimiento); // Usar el Date convertido
+        persona.setFechaNacimiento(fechaNacimiento);
 
         if (input.getRolIds() != null && !input.getRolIds().isEmpty()) {
             Set<Rol> roles = new HashSet<>(rolRepository.findAllById(input.getRolIds()));
@@ -74,38 +71,28 @@ public class PersonaService {
 
         return personaRepository.save(persona);
     }
-
-    // ---------------- MÉTODO PARA CONVERTIR STRING A DATE ----------------
     private Date parseFecha(String fechaStr) {
-        if (fechaStr == null || fechaStr.trim().isEmpty()) {
-            return null;
-        }
+        if (fechaStr == null || fechaStr.trim().isEmpty()) return null;
 
         try {
-            // Intentar con formato ISO (yyyy-MM-dd'T'HH:mm:ss.SSS'Z')
             if (fechaStr.contains("T")) {
                 SimpleDateFormat isoFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                 return isoFormatter.parse(fechaStr);
-            }
-            // Intentar con formato simple (yyyy-MM-dd)
-            else {
+            } else {
                 SimpleDateFormat simpleFormatter = new SimpleDateFormat("yyyy-MM-dd");
                 return simpleFormatter.parse(fechaStr);
             }
         } catch (ParseException e) {
-            throw new RuntimeException("Formato de fecha inválido: " + fechaStr + ". Use formato yyyy-MM-dd o yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            throw new RuntimeException("Formato de fecha inválido: " + fechaStr +
+                    ". Use formato yyyy-MM-dd o yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         }
     }
-
-    // ---------------- ELIMINAR PERSONA ----------------
     public Persona deletePersona(Long id) {
         Persona persona = personaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
         personaRepository.delete(persona);
         return persona;
     }
-
-    // ---------------- BUSCAR PERSONA ----------------
     public Optional<Persona> findPersonaById(Long id) {
         return personaRepository.findById(id);
     }
@@ -114,8 +101,20 @@ public class PersonaService {
         return personaRepository.findAll();
     }
 
-    // ---------------- BUSCAR PERSONAS POR NOMBRE ----------------
     public List<Persona> findPersonasByNombre(String nombre) {
         return personaRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+    public PaginadorDto<Persona> findAllPaginated(int page, int size, String search) {
+        BiFunction<String, Pageable, Page<Persona>> searchFunction = (s, pageable) -> {
+            if (s == null || s.isEmpty()) {
+                return personaRepository.findAll(pageable);
+            } else {
+                return personaRepository.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCaseOrDocumentoContainingIgnoreCase(
+                        s, s, s, pageable
+                );
+            }
+        };
+
+        return paginadorService.paginarConFiltro(searchFunction, search, page, size);
     }
 }

@@ -2,11 +2,18 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/filtro/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/config/GraphqlConfig.java" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/dto/PaginadorDto.java" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/exception/CarsExceptionHandler.java" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/exception/CarsExceptionSubscritionResolver.java" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/exception/CustomValidationException.java" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/service/PaginadorService.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/config/GraphqlConfig.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/controller/JwtAuthenticationFilter.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/controller/UsuarioController.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/dto/AuthPayload.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/dto/PaginadorDto.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/exception/CarsExceptionHandler.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/exception/CarsExceptionSubscritionResolver.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/exception/CustomValidationException.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/repository/UsuarioRepository.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/service/JwtService.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/service/PaginadorService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/service/UsuarioRepository.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/filtro/src/main/java/py/edu/facitec/filtro/service/UsuarioService.java" charset="ISO-8859-1" />
   </component>
 </project>

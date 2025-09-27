@@ -25,3 +25,10 @@ input InputPersona {
     estadoPersona: String
     fechaNacimiento: String
 }
+type PaginadorPersona {
+    items: [Persona!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

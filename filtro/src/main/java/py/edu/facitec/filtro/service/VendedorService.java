@@ -27,7 +27,7 @@ public class VendedorService {
     @Autowired
     private PaginadorService paginadorService;
 
-    // Crear vendedor
+    // ---------------- CREAR VENDEDOR ----------------
     public Vendedor createVendedor(InputVendedor input) {
         Vendedor v = new Vendedor();
         v.setCodigoVendedor(input.getCodigoVendedor());
@@ -43,7 +43,7 @@ public class VendedorService {
         return vendedorRepository.save(v);
     }
 
-    // Actualizar vendedor
+    // ---------------- ACTUALIZAR VENDEDOR ----------------
     public Vendedor updateVendedor(Long id, InputVendedor input) {
         Vendedor v = vendedorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
@@ -61,7 +61,7 @@ public class VendedorService {
         return vendedorRepository.save(v);
     }
 
-    // Eliminar vendedor
+    // ---------------- ELIMINAR VENDEDOR ----------------
     public Vendedor deleteVendedor(Long id) {
         Vendedor v = vendedorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
@@ -69,14 +69,13 @@ public class VendedorService {
         return v;
     }
 
-    // Buscar por ID
+    // ---------------- BUSCAR VENDEDOR POR ID ----------------
     public Optional<Vendedor> findVendedorById(Long id) {
         return vendedorRepository.findById(id);
     }
 
-    // Paginación y búsqueda con rol VENDEDOR (incluye clientes con rol VENDEDOR)
+    // ---------------- PAGINACIÓN Y BÚSQUEDA ----------------
     public PaginadorDto<Vendedor> findVendedoresPaginated(int page, int size, String search) {
-
         BiFunction<String, Pageable, Page<Vendedor>> searchFunction = (s, pageable) -> {
             if (s == null || s.isEmpty()) {
                 return vendedorRepository.findByPersonaRol(TipoPersona.VENDEDOR, pageable);

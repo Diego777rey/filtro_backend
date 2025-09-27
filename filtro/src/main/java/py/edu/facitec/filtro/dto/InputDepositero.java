@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class InputDepositero {
     private String codigoDepositero;
-    private Date fechaIngreso;
+    private String fechaIngreso;
     private String turno;
     private String almacenAsignado;
     private String supervisor;

@@ -7,12 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import py.edu.facitec.filtro.entity.Cliente;
+import py.edu.facitec.filtro.entity.Depositero;
 import py.edu.facitec.filtro.enums.TipoPersona;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-
-    // Traer todos los clientes cuyo persona tenga el rol CLIENTE
+public interface DepositeroRepository extends JpaRepository<Depositero, Long> {
     @Query("""
         SELECT c
         FROM Cliente c
@@ -21,40 +20,36 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
         WHERE r.tipoPersona = :rol
     """)
     Page<Cliente> findByPersonaRol(@Param("rol") TipoPersona rol, Pageable pageable);
-
-    // Buscar clientes por rol y nombre de persona
     @Query("""
         SELECT c
-        FROM Cliente c
+        FROM Depositero c
         JOIN c.persona p
         JOIN p.roles r
         WHERE r.tipoPersona = :rol
         AND LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))
     """)
-    Page<Cliente> findByPersonaRolAndNombreContaining(@Param("rol") TipoPersona rol,
+    Page<Depositero> findByPersonaRolAndNombreContaining(@Param("rol") TipoPersona rol,
                                                       @Param("nombre") String nombre,
                                                       Pageable pageable);
-
-    // ---------------- NUEVO: Traer clientes cuyo persona tenga CLIENTE y/o VENDEDOR ----------------
     @Query("""
         SELECT DISTINCT c
-        FROM Cliente c
+        FROM Depositero c
         JOIN c.persona p
         JOIN p.roles r
         WHERE r.tipoPersona IN :roles
     """)
-    Page<Cliente> findByPersonaRolesIn(@Param("roles") java.util.List<TipoPersona> roles,
-                                       Pageable pageable);
+    Page<Depositero> findByPersonaRolesIn(@Param("roles") java.util.List<TipoPersona> roles,
+                                          Pageable pageable);
 
     @Query("""
         SELECT DISTINCT c
-        FROM Cliente c
+        FROM Depositero c
         JOIN c.persona p
         JOIN p.roles r
         WHERE r.tipoPersona IN :roles
         AND LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))
     """)
-    Page<Cliente> findByPersonaRolesInAndNombreContaining(@Param("roles") java.util.List<TipoPersona> roles,
+    Page<Depositero> findByPersonaRolesInAndNombreContaining(@Param("roles") java.util.List<TipoPersona> roles,
                                                           @Param("nombre") String nombre,
                                                           Pageable pageable);
 }

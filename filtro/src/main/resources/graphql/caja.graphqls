@@ -3,7 +3,7 @@ type Caja{
     codigoCaja: String!
     descripcion: String
     ubicacion: String
-    estadoCaja: String!
+    estadoCaja: EstadoCaja!
     saldoInicial: Float
     saldoActual: Float
 }
@@ -11,7 +11,7 @@ input InputCaja{
     codigoCaja: String!
     descripcion: String
     ubicacion: String
-    estadoCaja: String!
+    estadoCaja: EstadoCaja!
     saldoInicial: Float
     saldoActual: Float
 }
@@ -21,4 +21,8 @@ type PaginadorCaja {
     totalPages: Int!
     currentPage: Int!
     itemsCount: Int!
+}
+enum EstadoCaja {
+    ABIERTA
+    CERRADA
 }

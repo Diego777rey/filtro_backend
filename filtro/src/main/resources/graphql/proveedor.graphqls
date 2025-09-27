@@ -1,18 +1,23 @@
 type Proveedor{
     id: ID!
-    nombre: String!
     ruc: String!
+    razonSocial: String!
     rubro: String!
-    contacto: String!
-    persona: Persona!
+    telefono: String
+    email: String
+    persona: Persona
+    observaciones: String
 }
 input InputProveedor{
-    nombre: String!
     ruc: String!
+    razonSocial: String!
     rubro: String!
-    contacto: String!
-    personaId: ID!
+    telefono: String
+    email: String
+    personaId: ID
+    observaciones: String
 }
+
 type PaginadorProveedor{
     items: [Proveedor!]!
     totalItems: Int!

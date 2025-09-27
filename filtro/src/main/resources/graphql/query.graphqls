@@ -1,15 +1,48 @@
 type Query {
     findVendedorById(vendedorId: ID!): Vendedor
-    findAllVendedores: [Vendedor!]!
-    findOneVendedor(id: ID!): Vendedor
-    findVendedoresPaginated(page: Int!, size: Int!, search: String): PaginadorCliente
+    findVendedoresPaginated(page: Int!, size: Int!, search: String): PaginadorVendedor
 
-    findClienteById(ClienteId: ID!): Cliente
-    findAllClientes: [Cliente!]!
-    findOneCliente(id: ID!): Cliente
+    findProveedorById(proveedorId: ID!): Proveedor
+    findProveedoresPaginated(page: Int!, size: Int!, search: String): PaginadorProveedor
+
+    findClienteById(clienteId: ID!): Cliente
     findClientesPaginated(page: Int!, size: Int!, search: String): PaginadorCliente
+
+    findCategoriaById(categoriaId: ID!): Categoria
+    findAllCategorias: [Categoria]
+    findCategoriasPaginated(page: Int!, size: Int!, search: String): PaginadorCategoria
+
+    findCajaById(cajaId: ID!): Caja
+    findAllCajas: [Caja]
+    findCajasPaginated(page: Int!, size: Int!, search: String): PaginadorCaja
+
+    findProductoById(productoId: ID!): Producto
+    findAllProductos: [Producto]
+    findProductosPaginated(page: Int!, size: Int!, search: String): PaginadorProducto
+
+    findCajeroById(CajeroId: ID!): Cajero
+    findAllCajeros: [Cajero]
+    findCajerosPaginated(page: Int!, size: Int!, search: String): PaginadorCajero
+
+    findDepositeroById(DepositeroId: ID!): Depositero
+    findDepositerosPaginated(page: Int!, size: Int!, search: String): PaginadorDepositero
 
     findPersonaById(personaId: ID!): Persona
     findAllPersonas: [Persona!]!
     findPersonasByNombre(nombre: String!): [Persona!]!
+    findPersonasPaginated(page: Int!, size: Int!, search: String): PaginadorPersona
+
+    findUsuarioById(id: ID!): Usuario
+    findUsuariosPaginated(page: Int!, size: Int!, search: String): PaginadorUsuario
+
+    findRegistrarHorarioById(registrarHorarioId: ID!): RegistrarHorario
+    findAllRegistrarHorarios: [RegistrarHorario]
+    findRegistrarHorariosPorVendedor(vendedorId: ID!): [RegistrarHorario]
+}
+type Subscription  {
+    findAllCategoriasFlux: [Categoria]
+    findOneCategoriaMono(id: ID!): Categoria
+
+    findAllCajasFlux: [Caja]
+    findOneCajaMono(id: ID!): Caja
 }

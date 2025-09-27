@@ -15,7 +15,8 @@ public class InputProducto {
     private String codigoProducto;
     private String nombre;
     private String descripcion;
-    private BigDecimal precio;
+    private BigDecimal precioCompra;
+    private BigDecimal precioVenta;
     private Integer stock;
     private ProductoEstado productoEstado; // ACTIVO, INACTIVO
     private Long categoriaId;

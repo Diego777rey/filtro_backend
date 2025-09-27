@@ -12,7 +12,7 @@ import java.util.Date;
 public class InputCajero {
     private String codigoCajero;
     private String turno; // MAÑANA, TARDE, NOCHE
-    private Date fechaIngreso;
+    private String fechaIngreso;
     private String estado; // ACTIVO, INACTIVO, VACACIONES
     private Long cajaId;
     private Long personaId;
