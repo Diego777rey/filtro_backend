@@ -1,4 +1,4 @@
-package py.edu.facitec.filtro.service;
+/*package py.edu.facitec.filtro.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,4 +123,4 @@ public class MovimientoCajaService {
             throw new IllegalArgumentException("El stock no puede ser negativo");
         }
     }
-}
+}*/
