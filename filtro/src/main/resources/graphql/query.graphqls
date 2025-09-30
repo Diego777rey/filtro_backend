@@ -5,6 +5,10 @@ type Query {
     findProveedorById(proveedorId: ID!): Proveedor
     findProveedoresPaginated(page: Int!, size: Int!, search: String): PaginadorProveedor
 
+    findVentaById(ventaId: ID!): Venta
+    findAllVentas: [Venta]
+    findVentasPaginated(page: Int!, size: Int!, search: String): PaginadorVenta
+
     findClienteById(clienteId: ID!): Cliente
     findClientesPaginated(page: Int!, size: Int!, search: String): PaginadorCliente
 
@@ -19,6 +23,10 @@ type Query {
     findProductoById(productoId: ID!): Producto
     findAllProductos: [Producto]
     findProductosPaginated(page: Int!, size: Int!, search: String): PaginadorProducto
+
+    findMovinmientoCajaById(movimientoId: ID!): MovimientoCaja
+    findAllMovimientosCaja: [MovimientoCaja]
+    findMovimientosCajaPaginated(page: Int!, size: Int!, search: String): PaginadorMovimientoCaja
 
     findCajeroById(CajeroId: ID!): Cajero
     findAllCajeros: [Cajero]

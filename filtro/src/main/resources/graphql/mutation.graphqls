@@ -43,4 +43,14 @@ type Mutation {
     actualizarUsuario(id: ID!, input: UsuarioInput!): Usuario
     eliminarUsuario(id: ID!): Usuario
     login(nombre: String!, contrasenha: String!): AuthPayload
+
+    createVenta(input: InputVenta!): Venta!
+    updateVenta(ventaId: ID!, input: InputVenta!): Venta!
+    deleteVenta(ventaId: ID!): Boolean!
+    updateVentaStatus(id: ID!, estado: EstadoVenta!): Venta!
+
+    createVentaDetalle(ventaId: ID!, detalle: InputVentaDetalle!): VentaDetalle!
+    updateVentaDetalle(ventaDetalleId: ID!, cantidad: Int!): VentaDetalle!
+    deleteVentaDetalle(ventaDetalleId: ID!): VentaDetalle!
+
 }

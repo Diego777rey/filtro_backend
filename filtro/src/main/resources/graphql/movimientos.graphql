@@ -1,0 +1,24 @@
+type MovimientoCaja{
+    id: ID!
+    monto: Float!
+    tipo: String!
+    fecha: String!
+    descripcion: String
+    caja: Caja!
+    venta: Venta!
+}
+input InputMovimientoCaja{
+    monto: Float!
+    tipo: String!
+    fecha: String!
+    descripcion: String
+    cajaId: ID!
+    ventaId: ID!
+}
+type PaginadorMovimientoCaja{
+    items: [MovimientoCaja!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

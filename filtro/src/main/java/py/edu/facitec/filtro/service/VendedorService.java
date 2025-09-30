@@ -74,6 +74,10 @@ public class VendedorService {
         return vendedorRepository.findById(id);
     }
 
+    public Vendedor findOneVendedor(Long id) {
+        return vendedorRepository.findById(id).orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
+    }
+
     // ---------------- PAGINACIÓN Y BÚSQUEDA ----------------
     public PaginadorDto<Vendedor> findVendedoresPaginated(int page, int size, String search) {
         BiFunction<String, Pageable, Page<Vendedor>> searchFunction = (s, pageable) -> {

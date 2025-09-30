@@ -25,12 +25,13 @@ public class Venta {
     private String codigoVenta;
     private Date fechaVenta;
     private BigDecimal total;
+
     @Enumerated(EnumType.STRING)
     private TipoVenta tipoVenta;
-    @Enumerated(EnumType.STRING)
-    private EstadoVenta estadoVenta; // MOSTRADOR, DELIVERY, WEB
 
-    // Relaciones
+    @Enumerated(EnumType.STRING)
+    private EstadoVenta estadoVenta; // PENDIENTE, COBRADA
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -41,8 +42,11 @@ public class Venta {
 
     @ManyToOne
     @JoinColumn(name = "cajero_id")
-    private Cajero cajero;
-    // Relación opcional con Factura (una venta puede generar una factura)
+    private Cajero cajero; // Cajero que cobró la venta
+
+    @ManyToOne
+    @JoinColumn(name = "caja_id")
+    private Caja caja; // Caja donde se registró el cobro
     @OneToOne(mappedBy = "venta")
     private Factura factura;
 }

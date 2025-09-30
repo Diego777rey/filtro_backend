@@ -11,7 +11,7 @@ import py.edu.facitec.filtro.enums.TipoPersona;
 
 import java.util.Optional;
 
-public interface CajeroRepository extends JpaRepository<Cajero,Long> {
+public interface CajeroRepository extends JpaRepository<Cajero, Long> {
 
     @Query("""
         SELECT DISTINCT v
@@ -19,6 +19,7 @@ public interface CajeroRepository extends JpaRepository<Cajero,Long> {
         JOIN v.persona.roles r
         WHERE r.tipoPersona = :rol
     """)
+    @EntityGraph(attributePaths = {"caja", "persona"})
     Page<Cajero> findByPersonaRol(@Param("rol") TipoPersona rol, Pageable pageable);
 
     @Query("""
@@ -28,21 +29,21 @@ public interface CajeroRepository extends JpaRepository<Cajero,Long> {
         WHERE r.tipoPersona = :rol
           AND LOWER(v.persona.nombre) LIKE LOWER(CONCAT('%', :search, '%'))
     """)
+    @EntityGraph(attributePaths = {"caja", "persona"})
     Page<Cajero> findByPersonaRolAndNombreContaining(@Param("rol") TipoPersona rol,
                                                      @Param("search") String search,
                                                      Pageable pageable);
 
-    @EntityGraph(attributePaths = {"caja"})
+    @EntityGraph(attributePaths = {"caja", "persona"})
     Page<Cajero> findAll(Pageable pageable);
 
-    // CORRECCIÓN: buscar por nombre dentro de persona
-    @EntityGraph(attributePaths = {"caja"})
+    @EntityGraph(attributePaths = {"caja", "persona"})
     @Query("""
         SELECT c FROM Cajero c
         WHERE LOWER(c.persona.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))
     """)
     Page<Cajero> findByNombreContainingIgnoreCase(@Param("nombre") String nombre, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"caja"})
+    @EntityGraph(attributePaths = {"caja", "persona"})
     Optional<Cajero> findById(Long id);
 }

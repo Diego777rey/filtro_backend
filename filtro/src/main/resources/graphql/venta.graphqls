@@ -1,46 +1,58 @@
-type Venta{
+type Venta {
     id: ID!
     codigoVenta: String!
     fechaVenta: String!
     total: Float!
     tipoVenta: String!
-    estadoVenta: String!
+    estadoVenta: EstadoVenta!
     cliente: Cliente
     vendedor: Vendedor
     cajero: Cajero
     factura: Factura
+    caja: Caja
+    detalles: [VentaDetalle!]
 }
-input InputVenta{
-    codigoVenta: String!
-    fechaVenta: String!
-    total: Float!
-    tipoVenta: String!
-    estadoVenta: String!
-    clienteId: ID
-    vendedorId: ID
-    cajeroId: ID
-}
-type VentaDetalle{
+
+type VentaDetalle {
     id: ID!
     cantidad: Int!
     precioUnitario: Float!
-    descuento: Float!
+    descuento: Float
     subtotal: Float!
     venta: Venta!
     producto: Producto!
 }
-input InputVentaDetalle{
-    cantidad: Int!
-    precioUnitario: Float!
-    descuento: Float!
-    subtotal: Float!
-    ventaId: ID!
-    productoId: ID!
-}
-type PaginadorVenta{
+
+type PaginadorVenta {
     items: [Venta!]!
     totalItems: Int!
     totalPages: Int!
     currentPage: Int!
     itemsCount: Int!
+}
+
+enum EstadoVenta {
+    PENDIENTE
+    CONFIRMADA
+    CANCELADA
+}
+enum TipoVenta {
+    LOCAL
+    DELIVERY
+    WEB
+}
+
+# ==================== Inputs ====================
+input InputVentaDetalle {
+    productoId: ID!
+    cantidad: Int!
+}
+
+input InputVenta {
+    clienteId: ID!
+    vendedorId: ID!
+    cajeroId: ID!
+    cajaId: ID!
+    tipoVenta: String!
+    detalles: [InputVentaDetalle!]
 }

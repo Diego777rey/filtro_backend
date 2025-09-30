@@ -87,6 +87,10 @@ public class ClienteService {
         return clienteRepository.findById(id);
     }
 
+    public Cliente findOneCliente(Long id) {
+        return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+    }
+
     // ---------------- PAGINACIÓN Y BÚSQUEDA POR ROL CLIENTE ----------------
     public PaginadorDto<Cliente> findClientesPaginated(int page, int size, String search) {
 
