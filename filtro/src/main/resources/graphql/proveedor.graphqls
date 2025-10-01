@@ -5,7 +5,6 @@ type Proveedor{
     rubro: String!
     telefono: String
     email: String
-    persona: Persona
     observaciones: String
 }
 input InputProveedor{
@@ -14,7 +13,6 @@ input InputProveedor{
     rubro: String!
     telefono: String
     email: String
-    personaId: ID
     observaciones: String
 }
 

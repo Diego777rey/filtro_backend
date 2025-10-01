@@ -15,6 +15,5 @@ public class InputProveedor {
     private String rubro;
     private String telefono;
     private String email;
-    private Long personaId;
     private String observaciones;
 }

@@ -25,10 +25,7 @@ public class Proveedor {
     private String telefono;
     private String email;
 
-    // Contacto principal (opcional)
-    @ManyToOne
-    @JoinColumn(name = "contacto_id")
-    private Persona persona;          // Persona de contacto dentro de la empresa
+    // Contacto principal (opcional)// Persona de contacto dentro de la empresa
 
     // Observaciones o notas adicionales
     private String observaciones;
