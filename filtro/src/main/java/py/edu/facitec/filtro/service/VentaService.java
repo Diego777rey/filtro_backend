@@ -60,7 +60,6 @@ public class VentaService {
     }
 
     private Cajero getCajero(Long id) {
-        // Con @EntityGraph en el repository, persona y caja se cargan automáticamente
         return cajeroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cajero no encontrado"));
     }
@@ -116,12 +115,17 @@ public class VentaService {
             producto.setStock(producto.getStock() - detalleDto.getCantidad());
             productoRepository.save(producto);
 
-            BigDecimal subtotal = producto.getPrecioVenta().multiply(BigDecimal.valueOf(detalleDto.getCantidad()));
+            BigDecimal descuento = detalleDto.getDescuento() != null ? detalleDto.getDescuento() : BigDecimal.ZERO;
+            BigDecimal subtotal = producto.getPrecioVenta()
+                    .multiply(BigDecimal.valueOf(detalleDto.getCantidad()))
+                    .subtract(descuento);
+
             VentaDetalle detalle = VentaDetalle.builder()
                     .venta(savedVenta)
                     .producto(producto)
                     .cantidad(detalleDto.getCantidad())
                     .precioUnitario(producto.getPrecioVenta())
+                    .descuento(descuento)
                     .subtotal(subtotal)
                     .build();
             ventaDetalleRepository.save(detalle);
@@ -206,12 +210,17 @@ public class VentaService {
         Producto producto = getProducto(detalleDto.getProductoId());
         actualizarStockProducto(producto, detalleDto.getCantidad(), true);
 
-        BigDecimal subtotal = producto.getPrecioVenta().multiply(BigDecimal.valueOf(detalleDto.getCantidad()));
+        BigDecimal descuento = detalleDto.getDescuento() != null ? detalleDto.getDescuento() : BigDecimal.ZERO;
+        BigDecimal subtotal = producto.getPrecioVenta()
+                .multiply(BigDecimal.valueOf(detalleDto.getCantidad()))
+                .subtract(descuento);
+
         VentaDetalle detalle = VentaDetalle.builder()
                 .venta(venta)
                 .producto(producto)
                 .cantidad(detalleDto.getCantidad())
                 .precioUnitario(producto.getPrecioVenta())
+                .descuento(descuento)
                 .subtotal(subtotal)
                 .build();
         VentaDetalle savedDetalle = ventaDetalleRepository.save(detalle);
@@ -223,7 +232,7 @@ public class VentaService {
     }
 
     @Transactional
-    public VentaDetalle updateVentaDetalle(Long ventaDetalleId, int nuevaCantidad) {
+    public VentaDetalle updateVentaDetalle(Long ventaDetalleId, int nuevaCantidad, BigDecimal nuevoDescuento) {
         VentaDetalle detalle = ventaDetalleRepository.findById(ventaDetalleId)
                 .orElseThrow(() -> new RuntimeException("Detalle de venta no encontrado"));
         Venta venta = detalle.getVenta();
@@ -233,11 +242,15 @@ public class VentaService {
         int diferencia = nuevaCantidad - detalle.getCantidad();
         actualizarStockProducto(producto, diferencia, true);
 
-        BigDecimal subtotalOriginal = detalle.getSubtotal();
-        BigDecimal nuevoSubtotal = detalle.getPrecioUnitario().multiply(BigDecimal.valueOf(nuevaCantidad));
-        BigDecimal diferenciaSubtotal = nuevoSubtotal.subtract(subtotalOriginal);
+        BigDecimal descuento = nuevoDescuento != null ? nuevoDescuento : BigDecimal.ZERO;
+        BigDecimal nuevoSubtotal = producto.getPrecioVenta()
+                .multiply(BigDecimal.valueOf(nuevaCantidad))
+                .subtract(descuento);
+
+        BigDecimal diferenciaSubtotal = nuevoSubtotal.subtract(detalle.getSubtotal());
 
         detalle.setCantidad(nuevaCantidad);
+        detalle.setDescuento(descuento);
         detalle.setSubtotal(nuevoSubtotal);
         ventaDetalleRepository.save(detalle);
 

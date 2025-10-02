@@ -11,12 +11,16 @@ import py.edu.facitec.filtro.dto.InputVentaDetalle;
 import py.edu.facitec.filtro.dto.PaginadorDto;
 import py.edu.facitec.filtro.entity.*;
 import py.edu.facitec.filtro.enums.EstadoVenta;
+import py.edu.facitec.filtro.repository.VentaDetalleRepository;
 import py.edu.facitec.filtro.service.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
 public class VentaController {
+    @Autowired
+    VentaDetalleRepository detalleRepository;
 
     @Autowired
     private VentaService ventaService;
@@ -39,7 +43,7 @@ public class VentaController {
     }
 
     @QueryMapping
-    public Venta findVentaById(Long ventaId) {
+    public Venta findVentaById(@Argument Long ventaId) {
         return ventaService.findOneVenta(ventaId);
     }
 
@@ -55,29 +59,41 @@ public class VentaController {
     }
 
     @MutationMapping
-    public Venta updateVenta(Long ventaId, @Argument("input") InputVenta inputVenta) {
+    public Venta updateVenta(@Argument Long ventaId, @Argument("input") InputVenta inputVenta) {
         return ventaService.updateVenta(ventaId, inputVenta);
     }
 
     @MutationMapping
-    public Venta updateVentaStatus(Long ventaId, @Argument("estado") EstadoVenta estado) {
-        return ventaService.updateVentaStatus(ventaId, estado);
+    public Venta updateVentaStatus(
+            @Argument("id") Long id,
+            @Argument("estado") EstadoVenta estado
+    ) {
+        return ventaService.updateVentaStatus(id, estado);
     }
 
+
     @MutationMapping
-    public Venta deleteVenta(Long ventaId) {
+    public Venta deleteVenta(@Argument Long ventaId) {
         return ventaService.deleteVenta(ventaId);
     }
 
     @MutationMapping
-    public VentaDetalle createVentaDetalle(@Argument("ventaId") Long ventaId, @Argument("detalle") InputVentaDetalle detalle) {
+    public VentaDetalle createVentaDetalle(@Argument("ventaId") Long ventaId,
+                                           @Argument("detalle") InputVentaDetalle detalle) {
         return ventaService.createVentaDetalle(ventaId, detalle);
     }
 
     @MutationMapping
-    public VentaDetalle updateVentaDetalle(@Argument("ventaDetalleId") Long ventaDetalleId, @Argument("cantidad") int cantidad) {
-        return ventaService.updateVentaDetalle(ventaDetalleId, cantidad);
+    public VentaDetalle updateVentaDetalle(
+            @Argument("ventaDetalleId") Long ventaDetalleId,
+            @Argument("cantidad") Long cantidad,
+            @Argument("descuento") BigDecimal descuento
+    ) {
+        int cantidadInt = cantidad.intValue(); // convertir a int
+        if (descuento == null) descuento = BigDecimal.ZERO;
+        return ventaService.updateVentaDetalle(ventaDetalleId, cantidadInt, descuento);
     }
+
 
     @MutationMapping
     public VentaDetalle deleteVentaDetalle(@Argument("ventaDetalleId") Long ventaDetalleId) {
@@ -102,5 +118,9 @@ public class VentaController {
     @SchemaMapping(typeName = "Venta", field = "caja")
     public Caja getCaja(Venta venta) {
         return cajaService.findOneCaja(venta.getCaja().getId());
+    }
+    @SchemaMapping(typeName = "Venta", field = "detalles")
+    public List<VentaDetalle> getDetalles(Venta venta) {
+        return detalleRepository.findByVentaId(venta.getId());
     }
 }
