@@ -27,6 +27,12 @@ type Mutation {
     updateProducto(id: ID!, inputProducto: InputProducto!): Producto
     deleteProducto(id: ID!): Producto
 
+    createMovimientoCaja(inputMovimientoCaja: InputMovimientoCaja!): MovimientoCaja
+    updateMovimientoCaja(id: ID!, inputMovimientoCaja: InputMovimientoCaja!): MovimientoCaja
+    deleteMovimientoCaja(id: ID!): MovimientoCaja
+    aceptarVenta(ventaId: ID!): MovimientoCaja
+    cancelarVenta(ventaId: ID!): Venta
+
     createCajero(inputCajero: InputCajero!): Cajero
     updateCajero(id: ID!, inputCajero: InputCajero!): Cajero
     deleteCajero(id: ID!): Cajero

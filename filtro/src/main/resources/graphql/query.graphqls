@@ -24,9 +24,9 @@ type Query {
     findAllProductos: [Producto]
     findProductosPaginated(page: Int!, size: Int!, search: String): PaginadorProducto
 
-   # findMovinmientoCajaById(movimientoId: ID!): MovimientoCaja
-    #findAllMovimientosCaja: [MovimientoCaja]
-    #findMovimientosCajaPaginated(page: Int!, size: Int!, search: String): PaginadorMovimientoCaja
+    findAllMovimientosCaja: [MovimientoCaja]
+    findMovinmientoCajaById(movimientoId: ID!): MovimientoCaja
+    findMovimientosCajaPaginated(page: Int!, size: Int!, search: String): PaginadorMovimientoCaja
 
     findCajeroById(CajeroId: ID!): Cajero
     findAllCajeros: [Cajero]

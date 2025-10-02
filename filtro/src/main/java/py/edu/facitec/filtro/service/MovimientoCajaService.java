@@ -1,16 +1,18 @@
-/*package py.edu.facitec.filtro.service;
+package py.edu.facitec.filtro.service;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import py.edu.facitec.filtro.dto.InputMovimientoCaja;
 import py.edu.facitec.filtro.dto.PaginadorDto;
-import py.edu.facitec.filtro.entity.Categoria;
-import py.edu.facitec.filtro.entity.MovimientoCaja;
-import py.edu.facitec.filtro.entity.Proveedor;
-import py.edu.facitec.filtro.repository.CategoriaRepository;
-import py.edu.facitec.filtro.repository.MovimientoCajaRepository;
-import py.edu.facitec.filtro.repository.ProveedorRepository;
+import py.edu.facitec.filtro.dto.InputMovimientoCaja;
+import py.edu.facitec.filtro.entity.*;
+import py.edu.facitec.filtro.enums.EstadoCaja;
+import py.edu.facitec.filtro.enums.EstadoVenta;
+import py.edu.facitec.filtro.repository.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,49 +20,70 @@ import java.util.List;
 public class MovimientoCajaService {
 
     @Autowired
-    private MovimientoCajaRepository MovimientoCajaRepository;
+    private MovimientoCajaRepository movimientoCajaRepository;
 
-    @Autowired
-    private VentaRepository ventaRepository;
     @Autowired
     private CajaRepository cajaRepository;
 
     @Autowired
+    private VentaRepository ventaRepository;
+
+    @Autowired
     private PaginadorService paginadorService;
 
-    public List<MovimientoCaja> findAllMovimientoCajas() {
-        return MovimientoCajaRepository.findAll(); // ya trae categoría gracias a @EntityGraph
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    // ------------------ Consultas ------------------
+
+    public List<MovimientoCaja> findAllMovimientosCaja() {
+        return movimientoCajaRepository.findAll();
     }
 
     public MovimientoCaja findOneMovimientoCaja(Long id) {
-        return MovimientoCajaRepository.findById(id)
+        return movimientoCajaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("MovimientoCaja con id " + id + " no existe"));
     }
+
+    public PaginadorDto<MovimientoCaja> findMovimientosCajaPaginated(int page, int size, String search) {
+        return paginadorService.paginarConFiltro(
+                (s, pageable) -> {
+                    if (s == null || s.trim().isEmpty()) {
+                        return movimientoCajaRepository.findAll(pageable);
+                    }
+                    return movimientoCajaRepository.findByDescripcionContainingIgnoreCase(s, pageable);
+                },
+                search,
+                page,
+                size
+        );
+    }
+
+    // ------------------ Movimientos manuales ------------------
 
     public MovimientoCaja saveMovimientoCaja(InputMovimientoCaja dto) {
         validarCamposObligatorios(dto);
         validarNegocio(dto);
 
-        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id " + dto.getCategoriaId()));
+        Caja caja = cajaRepository.findById(dto.getCajaId())
+                .orElseThrow(() -> new RuntimeException("Caja no encontrada con id " + dto.getCajaId()));
 
-        Proveedor proveedor = proveedorRepository.findById(dto.getProveedorId())
-                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con id " + dto.getProveedorId()));
+        Venta venta = null;
+        if (dto.getVentaId() != null) {
+            venta = ventaRepository.findById(dto.getVentaId())
+                    .orElseThrow(() -> new RuntimeException("Venta no encontrada con id " + dto.getVentaId()));
+        }
 
-        MovimientoCaja MovimientoCaja = MovimientoCaja.builder()
-                .codigoMovimientoCaja(dto.getCodigoMovimientoCaja())
-                .nombre(dto.getNombre())
+        MovimientoCaja movimientoCaja = MovimientoCaja.builder()
+                .monto(dto.getMonto())
+                .tipo(dto.getTipo())
+                .fecha(parseFecha(dto.getFecha()))
                 .descripcion(dto.getDescripcion())
-                .precioCompra(dto.getPrecioCompra())
-                .precioVenta(dto.getPrecioVenta())
-                .stock(dto.getStock())
-                .MovimientoCajaEstado(dto.getMovimientoCajaEstado())
-                .categoria(categoria)
-                .proveedor(proveedor)
+                .caja(caja)
+                .venta(venta)
                 .build();
 
-        MovimientoCaja saved = MovimientoCajaRepository.save(MovimientoCaja);
-        log.info("MovimientoCaja creado: {}", saved.getNombre());
+        MovimientoCaja saved = movimientoCajaRepository.save(movimientoCaja);
+        log.info("MovimientoCaja creado manualmente: {}", saved.getMonto());
         return saved;
     }
 
@@ -68,59 +91,127 @@ public class MovimientoCajaService {
         validarCamposObligatorios(dto);
         validarNegocio(dto);
 
-        MovimientoCaja MovimientoCaja = MovimientoCajaRepository.findById(id)
+        MovimientoCaja movimientoCaja = movimientoCajaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("MovimientoCaja con id " + id + " no existe"));
-        MovimientoCaja.setCodigoMovimientoCaja(dto.getCodigoMovimientoCaja());
-        MovimientoCaja.setNombre(dto.getNombre());
-        MovimientoCaja.setDescripcion(dto.getDescripcion());
-        MovimientoCaja.setPrecioCompra((dto.getPrecioCompra()));
-        MovimientoCaja.setPrecioVenta(dto.getPrecioVenta());
-        MovimientoCaja.setStock(dto.getStock());
-        MovimientoCaja.setMovimientoCajaEstado(dto.getMovimientoCajaEstado());
 
-        Proveedor proveedor = proveedorRepository.findById(dto.getProveedorId())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id " + dto.getProveedorId()));
-        MovimientoCaja.setProveedor(proveedor);
+        movimientoCaja.setMonto(dto.getMonto());
+        movimientoCaja.setTipo(dto.getTipo());
+        movimientoCaja.setFecha(parseFecha(dto.getFecha()));
+        movimientoCaja.setDescripcion(dto.getDescripcion());
 
-        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id " + dto.getCategoriaId()));
-        MovimientoCaja.setCategoria(categoria);
+        Caja caja = cajaRepository.findById(dto.getCajaId())
+                .orElseThrow(() -> new RuntimeException("Caja no encontrada con id " + dto.getCajaId()));
+        movimientoCaja.setCaja(caja);
 
-        MovimientoCaja updated = MovimientoCajaRepository.save(MovimientoCaja);
-        log.info("MovimientoCaja actualizado: {}", updated.getNombre());
+        Venta venta = null;
+        if (dto.getVentaId() != null) {
+            venta = ventaRepository.findById(dto.getVentaId())
+                    .orElseThrow(() -> new RuntimeException("Venta no encontrada con id " + dto.getVentaId()));
+        }
+        movimientoCaja.setVenta(venta);
+
+        MovimientoCaja updated = movimientoCajaRepository.save(movimientoCaja);
+        log.info("MovimientoCaja actualizado manualmente: {}", updated.getMonto());
         return updated;
     }
 
     public MovimientoCaja deleteMovimientoCaja(Long id) {
-        MovimientoCaja MovimientoCaja = MovimientoCajaRepository.findById(id)
+        MovimientoCaja movimientoCaja = movimientoCajaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("MovimientoCaja con id " + id + " no existe"));
-        MovimientoCajaRepository.delete(MovimientoCaja);
-        log.info("MovimientoCaja eliminado: {}", MovimientoCaja.getNombre());
-        return MovimientoCaja;
+        movimientoCajaRepository.delete(movimientoCaja);
+        log.info("MovimientoCaja eliminado: {}", movimientoCaja.getMonto());
+        return movimientoCaja;
     }
 
-    public PaginadorDto<MovimientoCaja> findMovimientoCajasPaginated(int page, int size, String search) {
-        return paginadorService.paginarConFiltro(
-                (s, pageable) -> {
-                    if (s == null || s.trim().isEmpty()) {
-                        return MovimientoCajaRepository.findAll(pageable);
-                    }
-                    return MovimientoCajaRepository.findByNombreContainingIgnoreCase(s, pageable);
-                },
-                search,
-                page,
-                size
-        );
+    // ------------------ Lógica de aceptar/cancelar venta ------------------
+
+    public MovimientoCaja aceptarVenta(Long ventaId) {
+        Venta venta = ventaRepository.findById(ventaId)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada con id " + ventaId));
+
+        if (venta.getEstadoVenta() != EstadoVenta.PENDIENTE) {
+            throw new RuntimeException("La venta ya fue procesada");
+        }
+
+        venta.setEstadoVenta(EstadoVenta.COMPLETADA);
+        ventaRepository.save(venta);
+
+        Caja caja = venta.getCaja();
+        if (caja == null || caja.getEstadoCaja() == EstadoCaja.CERRADA) {
+            throw new RuntimeException("La caja está cerrada o no asignada");
+        }
+
+        // Actualizar saldo de la caja
+        caja.setSaldoActual(caja.getSaldoActual().add(venta.getTotal()));
+        cajaRepository.save(caja);
+
+        MovimientoCaja movimiento = MovimientoCaja.builder()
+                .monto(venta.getTotal())
+                .tipo("INGRESO")
+                .fecha(new Date())
+                .descripcion("Venta confirmada: " + venta.getCodigoVenta())
+                .caja(caja)
+                .venta(venta)
+                .build();
+
+        MovimientoCaja saved = movimientoCajaRepository.save(movimiento);
+        log.info("Venta aceptada, MovimientoCaja generado: {}", saved.getMonto());
+        return saved;
     }
+
+    public Venta cancelarVenta(Long ventaId) {
+        Venta venta = ventaRepository.findById(ventaId)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada con id " + ventaId));
+
+        if (venta.getEstadoVenta() != EstadoVenta.PENDIENTE) {
+            throw new RuntimeException("La venta ya fue procesada");
+        }
+
+        venta.setEstadoVenta(EstadoVenta.CANCELADA);
+        Venta saved = ventaRepository.save(venta);
+        log.info("Venta cancelada: {}", saved.getCodigoVenta());
+        return saved;
+    }
+
+    // ------------------ Validaciones ------------------
+
     private void validarCamposObligatorios(InputMovimientoCaja dto) {
-        if (dto.getDescripcion() == null || dto.getDescripcion().trim().isEmpty()) {
-            throw new IllegalArgumentException("La descripción es obligatoria");
+        if (dto.getMonto() == null || dto.getMonto().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El monto debe ser mayor a cero");
+        }
+        if (dto.getTipo() == null || dto.getTipo().trim().isEmpty()) {
+            throw new IllegalArgumentException("El tipo es obligatorio (INGRESO/EGRESO)");
+        }
+        if (dto.getFecha() == null || dto.getFecha().trim().isEmpty()) {
+            throw new IllegalArgumentException("La fecha es obligatoria");
+        }
+        if (dto.getCajaId() == null) {
+            throw new IllegalArgumentException("El ID de la caja es obligatorio");
         }
     }
 
     private void validarNegocio(InputMovimientoCaja dto) {
-        if (dto.getStock() != null && dto.getStock() < 0) {
-            throw new IllegalArgumentException("El stock no puede ser negativo");
+        // Validar que el tipo sea INGRESO o EGRESO
+        if (!"INGRESO".equalsIgnoreCase(dto.getTipo()) && !"EGRESO".equalsIgnoreCase(dto.getTipo())) {
+            throw new IllegalArgumentException("El tipo debe ser INGRESO o EGRESO");
+        }
+
+        // Validar que la caja exista y esté abierta
+        Caja caja = cajaRepository.findById(dto.getCajaId())
+                .orElseThrow(() -> new RuntimeException("Caja no encontrada"));
+
+        if (caja.getEstadoCaja() == EstadoCaja.CERRADA) {
+            throw new RuntimeException("No se pueden realizar movimientos en una caja cerrada");
         }
     }
-}*/
+
+    // ------------------ Métodos auxiliares ------------------
+
+    private Date parseFecha(String fechaStr) {
+        try {
+            return dateFormat.parse(fechaStr);
+        } catch (ParseException e) {
+            throw new RuntimeException("Formato de fecha inválido: " + fechaStr + ". Use formato yyyy-MM-dd");
+        }
+    }
+}

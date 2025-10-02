@@ -1,4 +1,4 @@
-/*package py.edu.facitec.filtro.repository;
+package py.edu.facitec.filtro.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +15,9 @@ public interface MovimientoCajaRepository extends JpaRepository<MovimientoCaja,L
     Page<MovimientoCaja> findAll(Pageable pageable);
 
     @EntityGraph(attributePaths = {"caja", "venta"})
-    Page<MovimientoCaja> findByNombreContainingIgnoreCase(String nombre, Pageable pageable);
+    Page<MovimientoCaja> findByDescripcionContainingIgnoreCase(String descripcion, Pageable pageable);
+
 
     @EntityGraph(attributePaths = {"caja", "venta"})
     Optional<MovimientoCaja> findById(Long id);
-}*/
+}
