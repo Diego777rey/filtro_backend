@@ -18,3 +18,12 @@ type PaginadorRegistrarHorario{
     currentPage: Int!
     itemsCount: Int!
 }
+enum Horarios {
+    ENTRADA
+    SALIDA
+    EXTRA
+}
+enum Turno {
+    DIA
+    NOCHE
+}

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import py.edu.facitec.filtro.enums.Horarios;
+import py.edu.facitec.filtro.enums.Turno;
 
 import java.time.LocalDateTime;
 
@@ -25,8 +26,9 @@ public class RegistrarHorario {
 
     @Column(nullable = false)
     private LocalDateTime fechaHora;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String turno;
+    private Turno turno;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Horarios horarios;

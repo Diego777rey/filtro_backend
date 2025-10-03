@@ -1,14 +1,16 @@
-/*package py.edu.facitec.filtro.service;
+package py.edu.facitec.filtro.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.edu.facitec.filtro.entity.RegistrarHorario;
-import py.edu.facitec.filtro.entity.Vendedor;
+import py.edu.facitec.filtro.entity.Persona;
 import py.edu.facitec.filtro.enums.Horarios;
+import py.edu.facitec.filtro.enums.Turno;
 import py.edu.facitec.filtro.repository.RegistrarHorarioRepository;
-import py.edu.facitec.filtro.repository.VendedorRepository;
+import py.edu.facitec.filtro.repository.PersonaRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,39 +19,47 @@ import java.util.Optional;
 public class RegistrarHorarioService {
 
     private final RegistrarHorarioRepository registrarHorarioRepository;
-    private final VendedorRepository vendedorRepository;
+    private final PersonaRepository personaRepository;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public RegistrarHorarioService(RegistrarHorarioRepository registrarHorarioRepository,
-                                   VendedorRepository vendedorRepository) {
+                                   PersonaRepository personaRepository) {
         this.registrarHorarioRepository = registrarHorarioRepository;
-        this.vendedorRepository = vendedorRepository;
+        this.personaRepository = personaRepository;
     }
 
     // Crear registro
-    public RegistrarHorario createRegistrarHorario(LocalDateTime fechaHora, Horarios horario, Integer vendedorId) {
-        Vendedor vendedor = vendedorRepository.findById(vendedorId)
-                .orElseThrow(() -> new IllegalArgumentException("Vendedor no encontrado"));
+    public RegistrarHorario createRegistrarHorario(LocalDateTime fechaHora, Turno turno, Horarios horario, Long personaId) {
+        Persona persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada"));
 
         RegistrarHorario registrarHorario = RegistrarHorario.builder()
                 .fechaHora(fechaHora)
+                .turno(turno)
                 .horarios(horario)
-                .vendedor(vendedor)
+                .persona(persona)
                 .build();
+
+        System.out.println("Creando registro a las: " + fechaHora.format(formatter)); // evita error CharSequence
 
         return registrarHorarioRepository.save(registrarHorario);
     }
 
     // Actualizar registro
-    public RegistrarHorario updateRegistrarHorario(Long id, LocalDateTime fechaHora, Horarios horario, Integer vendedorId) {
+    public RegistrarHorario updateRegistrarHorario(Long id, LocalDateTime fechaHora, Turno turno, Horarios horario, Long personaId) {
         RegistrarHorario registro = registrarHorarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Registro no encontrado"));
 
-        Vendedor vendedor = vendedorRepository.findById(vendedorId)
-                .orElseThrow(() -> new IllegalArgumentException("Vendedor no encontrado"));
+        Persona persona = personaRepository.findById(personaId)
+                .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada"));
 
         registro.setFechaHora(fechaHora);
+        registro.setTurno(turno);
         registro.setHorarios(horario);
-        registro.setVendedor(vendedor);
+        registro.setPersona(persona);
+
+        System.out.println("Actualizando registro a las: " + fechaHora.format(formatter)); // evita error CharSequence
 
         return registrarHorarioRepository.save(registro);
     }
@@ -73,8 +83,8 @@ public class RegistrarHorarioService {
         return registrarHorarioRepository.findAll();
     }
 
-    // Listar por vendedor
-    public List<RegistrarHorario> findByVendedorId(Long vendedorId) {
-        return registrarHorarioRepository.findByVendedorId(vendedorId);
+    // Listar por Persona
+    public List<RegistrarHorario> findByPersonaId(Long personaId) {
+        return registrarHorarioRepository.findByPersonaId(personaId);
     }
-}*/
+}
