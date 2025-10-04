@@ -2,6 +2,7 @@ package py.edu.facitec.filtro.service;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import py.edu.facitec.filtro.dto.InputVenta;
 import py.edu.facitec.filtro.dto.InputVentaDetalle;
@@ -18,6 +19,8 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class VentaService {
+    @Autowired
+    JasperTicketService jasperTicketService;
 
     private final VentaRepository ventaRepository;
     private final VentaDetalleRepository ventaDetalleRepository;
@@ -139,6 +142,10 @@ public class VentaService {
 
         log.info("Venta creada: {}", savedVenta.getCodigoVenta());
         return ventaRepository.save(savedVenta);
+
+       // Venta ventaCreada = ventaRepository.save(savedVenta);
+        //jasperTicketService.imprimirTicket(ventaCreada);
+
     }
 
     @Transactional

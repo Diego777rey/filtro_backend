@@ -58,6 +58,14 @@ public class MovimientoCajaService {
         );
     }
 
+    // 🚀 Nuevo método: Ventas pendientes por caja
+    public List<Venta> findVentasPendientesPorCaja(Long cajaId) {
+        Caja caja = cajaRepository.findById(cajaId)
+                .orElseThrow(() -> new RuntimeException("Caja no encontrada con id " + cajaId));
+
+        return ventaRepository.findByCajaAndEstadoVenta(caja, EstadoVenta.PENDIENTE);
+    }
+
     // ------------------ Movimientos manuales ------------------
 
     public MovimientoCaja saveMovimientoCaja(InputMovimientoCaja dto) {

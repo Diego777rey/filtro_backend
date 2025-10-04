@@ -45,6 +45,12 @@ public class MovimientoCajaController {
         return movimientoCajaService.findMovimientosCajaPaginated(page, size, search);
     }
 
+    // 🚀 Nueva Query: Ventas pendientes por caja
+    @QueryMapping
+    public List<Venta> findVentasPendientesPorCaja(@Argument("cajaId") Long cajaId) {
+        return movimientoCajaService.findVentasPendientesPorCaja(cajaId);
+    }
+
     // ------------------ Mutaciones manuales ------------------
 
     @MutationMapping

@@ -52,7 +52,7 @@ type Mutation {
 
     createVenta(input: InputVenta!): Venta!
     updateVenta(ventaId: ID!, input: InputVenta!): Venta!
-    deleteVenta(ventaId: ID!): Boolean!
+    deleteVenta(ventaId: ID!): Venta!
     updateVentaStatus(id: ID!, estado: EstadoVenta!): Venta!
 
     createVentaDetalle(ventaId: ID!, detalle: InputVentaDetalle!): VentaDetalle!

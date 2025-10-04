@@ -27,6 +27,8 @@ type Query {
     findAllMovimientosCaja: [MovimientoCaja]
     findMovinmientoCajaById(movimientoId: ID!): MovimientoCaja
     findMovimientosCajaPaginated(page: Int!, size: Int!, search: String): PaginadorMovimientoCaja
+    findVentasPendientesPorCaja(cajaId: ID!): [Venta]
+
 
     findCajeroById(CajeroId: ID!): Cajero
     findAllCajeros: [Cajero]
