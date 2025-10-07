@@ -2,8 +2,6 @@ package py.edu.facitec.filtro.service;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
-import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import org.springframework.stereotype.Service;
 import py.edu.facitec.filtro.entity.Venta;
 import py.edu.facitec.filtro.entity.VentaDetalle;
@@ -11,6 +9,7 @@ import py.edu.facitec.filtro.repository.VentaDetalleRepository;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,22 +24,22 @@ public class JasperTicketService {
 
     public void imprimirTicket(Venta venta) {
         try {
-            // 1️⃣ Compilar JRXML
-            JasperReport jasperReport = JasperCompileManager.compileReport(
-                    getClass().getResourceAsStream("/reports/ticket_venta.jrxml")
-            );
+            // 1️⃣ Cargar y compilar JRXML
+            InputStream reportStream = getClass().getResourceAsStream("/reportes/ticket_venta.jrxml");
+            if (reportStream == null) {
+                throw new RuntimeException("No se encontró el archivo JRXML");
+            }
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
 
-            // 2️⃣ Parámetros generales
+            // 2️⃣ Parámetros del ticket
             Map<String, Object> params = new HashMap<>();
             params.put("codigoVenta", venta.getCodigoVenta());
             params.put("fechaVenta", venta.getFechaVenta().toString());
             params.put("cliente", venta.getCliente() != null ? venta.getCliente().getPersona().getNombre() : "Consumidor Final");
             params.put("total", venta.getTotal());
 
-            // 3️⃣ Obtener detalles desde repositorio
+            // 3️⃣ Detalles de venta
             List<VentaDetalle> detalles = ventaDetalleRepository.findByVentaId(venta.getId());
-
-            // 4️⃣ Convertir detalles a Map si el reporte espera campos específicos
             List<Map<String, Object>> detallesMap = detalles.stream().map(det -> {
                 Map<String, Object> map = new HashMap<>();
                 map.put("producto", det.getProducto().getNombre());
@@ -53,24 +52,22 @@ public class JasperTicketService {
 
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(detallesMap);
 
-            // 5️⃣ Llenar reporte
+            // 4️⃣ Llenar reporte
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
 
-            // 6️⃣ Buscar impresora USB
+            // 5️⃣ Buscar impresora por nombre
             PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
             PrintService impresora = Arrays.stream(services)
-                    .filter(p -> p.getName().contains("acer_ticket")) // ajusta el nombre de tu impresora
+                    .filter(p -> p.getName().contains("acer_ticket")) // Ajustar al nombre real
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Impresora USB no encontrada"));
 
-            // 7️⃣ Exportar a impresora
-            JRPrintServiceExporter exporter = new JRPrintServiceExporter();
-            exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE, impresora);
-            exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
-            exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
-            exporter.setParameter(JRPrintServiceExporterParameter.JASPER_PRINT, jasperPrint);
+            System.out.println("Impresora encontrada: " + impresora.getName());
 
-            exporter.exportReport();
+            // 6️⃣ Imprimir directamente como Java2D
+            JasperPrintManager.printReport(jasperPrint, false); // false = no mostrar diálogo de impresión
+
+            System.out.println("Ticket enviado a impresora correctamente");
 
         } catch (Exception e) {
             e.printStackTrace();

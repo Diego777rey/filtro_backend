@@ -1,4 +1,4 @@
-package py.edu.facitec.filtro.entity;
+/*package py.edu.facitec.filtro.entity;
 
 import jakarta.persistence.*;
 
@@ -21,3 +21,4 @@ public class TransferenciaDetalle {
 
     private Double precioUnitario;
 }
+*/

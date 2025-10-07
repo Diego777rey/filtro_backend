@@ -1,4 +1,5 @@
-package py.edu.facitec.filtro.entity;
+/*package py.edu.facitec.filtro.entity;
 
 public class Sucursal {
 }
+*/

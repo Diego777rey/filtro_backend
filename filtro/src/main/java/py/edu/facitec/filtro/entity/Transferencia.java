@@ -1,4 +1,4 @@
-package py.edu.facitec.filtro.entity;
+/*package py.edu.facitec.filtro.entity;
 
 import jakarta.persistence.*;
 
@@ -38,3 +38,4 @@ public class Transferencia {
 
     // Constructores, getters y setters
 }
+*/

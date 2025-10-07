@@ -1,57 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.21.5.final using JasperReports Library version 6.21.5-74d586df47b25dbd05bd0957999819196e59934a  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ticket_venta" pageWidth="280" pageHeight="1000" columnWidth="280" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="12345678-1234-1234-1234-123456789012">
-	<parameter name="codigoVenta" class="java.lang.String"/>
-	<parameter name="fechaVenta" class="java.lang.String"/>
-	<parameter name="cliente" class="java.lang.String"/>
-	<parameter name="total" class="java.math.BigDecimal"/>
-	<field name="producto" class="java.lang.String"/>
-	<field name="cantidad" class="java.lang.Integer"/>
-	<field name="precioUnitario" class="java.math.BigDecimal"/>
-	<field name="subtotal" class="java.math.BigDecimal"/>
-	<title>
-		<band height="50">
-			<textField>
-				<reportElement x="0" y="0" width="280" height="20" uuid="070212ac-40b7-45e4-afa4-6eaa8fbd060d"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["TICKET DE VENTA"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="25" width="280" height="20" uuid="08db4bd5-c045-4d0f-be1c-94ccddd8f83b"/>
-				<textFieldExpression><![CDATA["Código: " + $P{codigoVenta} + "  Fecha: " + $P{fechaVenta}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="45" width="280" height="20" uuid="bd436a75-7ab2-4eca-93f9-103e1fd0593a"/>
-				<textFieldExpression><![CDATA["Cliente: " + $P{cliente}]]></textFieldExpression>
-			</textField>
-		</band>
-	</title>
-	<detail>
-		<band height="20">
-			<textField>
-				<reportElement x="0" y="0" width="120" height="20" uuid="11972417-05c6-4dfa-b952-0ce4efa7a0ec"/>
-				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="130" y="0" width="50" height="20" uuid="f627bfea-d7c5-4857-9f81-1a71c75471c2"/>
-				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="180" y="0" width="50" height="20" uuid="c83375e2-3b08-4305-8363-97aa8cdb4dc6"/>
-				<textFieldExpression><![CDATA[$F{precioUnitario}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="230" y="0" width="50" height="20" uuid="b8a6cf4e-453d-47c9-a331-b9d098357478"/>
-				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
-			</textField>
-		</band>
-	</detail>
-	<summary>
-		<band height="30">
-			<textField>
-				<reportElement x="0" y="0" width="280" height="20" uuid="f45995ca-7d8a-495b-a80a-a127548cdb1c"/>
-				<textFieldExpression><![CDATA["TOTAL: " + $P{total}]]></textFieldExpression>
-			</textField>
-		</band>
-	</summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="ticket_venta"
+              pageWidth="142" pageHeight="1000"
+              columnWidth="142"
+              leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0"
+              uuid="12345678-1234-1234-1234-123456789012">
+
+    <parameter name="codigoVenta" class="java.lang.String"/>
+    <parameter name="fechaVenta" class="java.lang.String"/>
+    <parameter name="cliente" class="java.lang.String"/>
+    <parameter name="total" class="java.math.BigDecimal"/>
+
+    <field name="producto" class="java.lang.String"/>
+    <field name="cantidad" class="java.lang.Integer"/>
+    <field name="precioUnitario" class="java.math.BigDecimal"/>
+    <field name="subtotal" class="java.math.BigDecimal"/>
+
+    <title>
+        <band height="70">
+            <textField>
+                <reportElement x="0" y="0" width="142" height="20" uuid="070212ac-40b7-45e4-afa4-6eaa8fbd060d"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA["TICKET DE VENTA"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="25" width="142" height="20" uuid="08db4bd5-c045-4d0f-be1c-94ccddd8f83b"/>
+                <textFieldExpression><![CDATA["Código: " + $P{codigoVenta} + "  Fecha: " + $P{fechaVenta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="50" width="142" height="20" uuid="bd436a75-7ab2-4eca-93f9-103e1fd0593a"/>
+                <textFieldExpression><![CDATA["Cliente: " + $P{cliente}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="60" height="20" uuid="11972417-05c6-4dfa-b952-0ce4efa7a0ec"/>
+                <textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="62" y="0" width="20" height="20" uuid="f627bfea-d7c5-4857-9f81-1a71c75471c2"/>
+                <textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="84" y="0" width="28" height="20" uuid="c83375e2-3b08-4305-8363-97aa8cdb4dc6"/>
+                <textFieldExpression><![CDATA[$F{precioUnitario}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="114" y="0" width="28" height="20" uuid="b8a6cf4e-453d-47c9-a331-b9d098357478"/>
+                <textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="30">
+            <textField>
+                <reportElement x="0" y="0" width="142" height="20" uuid="f45995ca-7d8a-495b-a80a-a127548cdb1c"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["TOTAL: " + $P{total}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+
 </jasperReport>

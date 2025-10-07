@@ -19,8 +19,9 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class VentaService {
+
     @Autowired
-    JasperTicketService jasperTicketService;
+    private JasperTicketService jasperTicketService;
 
     private final VentaRepository ventaRepository;
     private final VentaDetalleRepository ventaDetalleRepository;
@@ -132,6 +133,7 @@ public class VentaService {
                     .subtotal(subtotal)
                     .build();
             ventaDetalleRepository.save(detalle);
+
             totalVenta = totalVenta.add(subtotal);
         }
 
@@ -139,19 +141,22 @@ public class VentaService {
         savedVenta.setTotal(totalVenta);
         caja.setSaldoActual(caja.getSaldoActual().add(totalVenta));
         cajaRepository.save(caja);
+        ventaRepository.save(savedVenta);
+
+        // 4️⃣ Imprimir ticket
+        try {
+            jasperTicketService.imprimirTicket(savedVenta);
+        } catch (Exception e) {
+            log.error("No se pudo imprimir el ticket: {}", e.getMessage());
+        }
 
         log.info("Venta creada: {}", savedVenta.getCodigoVenta());
-        return ventaRepository.save(savedVenta);
-
-       // Venta ventaCreada = ventaRepository.save(savedVenta);
-        //jasperTicketService.imprimirTicket(ventaCreada);
-
+        return savedVenta;
     }
 
     @Transactional
     public Venta updateVenta(Long id, InputVenta inputVenta) {
         Venta venta = findOneVenta(id);
-
         if (venta.getEstadoVenta() == EstadoVenta.CANCELADA) {
             throw new RuntimeException("No se puede modificar una venta anulada.");
         }
@@ -176,7 +181,6 @@ public class VentaService {
     @Transactional
     public Venta deleteVenta(Long id) {
         Venta venta = findOneVenta(id);
-
         if (venta.getEstadoVenta() == EstadoVenta.CANCELADA) {
             throw new RuntimeException("La venta ya ha sido anulada.");
         }
