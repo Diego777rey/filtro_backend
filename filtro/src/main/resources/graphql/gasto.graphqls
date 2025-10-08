@@ -1,0 +1,24 @@
+type Gasto{
+    id: ID!
+    monto: Float!
+    concepto: String!
+    fecha: String!
+    sucursal: Sucursal!
+    responsable: Cajero!
+    caja: Caja!
+}
+input InputGasto{
+    monto: Float!
+    concepto: String!
+    fecha: String!
+    sucursalId: ID!
+    responsableId: ID!
+    cajaId: ID!
+}
+type PaginadorGasto {
+    items: [Gasto!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

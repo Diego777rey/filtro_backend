@@ -1,0 +1,33 @@
+type Pedido{
+    id: ID!
+    fecha: String!
+    proveedor: Proveedor!
+    detalles: [PedidoDetalle!]!
+    finalizado: Boolean!
+}
+type PedidoDetalle{
+    id: ID!
+    pedido: Pedido!
+    producto: Producto!
+    cantidad: Int!
+    precioUnitario: Float!
+}
+input InputPedido{
+    fecha: String!
+    proveedorId: ID!
+    detalles: [ID!]!
+    finalizado: Boolean!
+}
+input InputPedidoDetalle{
+    pedidoId: ID!
+    productoId: ID!
+    cantidad: Int!
+    precioUnitario: Float!
+}
+type PaginadorPedido{
+    items: [Pedido!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

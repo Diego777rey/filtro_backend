@@ -1,0 +1,22 @@
+type Sucursal{
+    id: ID!
+    nombre: String!
+    direccion: String
+    telefono: String
+    transferenciasOrigen: [Transferencia]
+    transferenciasDestino: [Transferencia]
+}
+input InputSucursal{
+    nombre: String!
+    direccion: String
+    telefono: String
+    transferenciasOrigenIds: [ID]
+    transferenciasDestinoIds: [ID]
+}
+type PaginadorSucursal {
+    items: [Sucursal!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}

@@ -1,11 +1,18 @@
-/*package py.edu.facitec.filtro.entity;
+package py.edu.facitec.filtro.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+@Data
 @Entity
 @Table(name = "transferencias")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Transferencia {
 
     @Id
@@ -28,14 +35,6 @@ public class Transferencia {
     @Column(nullable = false, length = 20)
     private String estado;
     // Ej: "PENDIENTE", "ENVIADA", "RECIBIDA", "ANULADA"
-
     @Column(length = 500)
     private String observacion;
-
-    // Auditoría
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
-
-    // Constructores, getters y setters
 }
-*/

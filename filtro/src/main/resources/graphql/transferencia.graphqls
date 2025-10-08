@@ -1,0 +1,35 @@
+type Transferencia{
+    id: ID!
+    sucursalOrigen: Sucursal!
+    sucursalDestino: Sucursal!
+    fecha: String!
+    estado: String!
+    observacion: String
+}
+input InputTransferencia{
+    sucursalOrigenId: [ID]
+    sucursalDestinoId: [ID]
+    fecha: String!
+    estado: String!
+    observacion: String
+}
+type PaginadorTransferencia {
+    items: [Transferencia!]!
+    totalItems: Int!
+    totalPages: Int!
+    currentPage: Int!
+    itemsCount: Int!
+}
+type TransferenciaDetalle{
+    id: ID!
+    transferencia: Transferencia!
+    producto: Producto!
+    cantidad: Int!
+    precioUnitario: Float!
+}
+input InputTransferenciaDetalle{
+    transferenciaId: [ID]
+    productoId: ID
+    cantidad: Int!
+    precioUnitario: Float!
+}

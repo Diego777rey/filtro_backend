@@ -13,9 +13,9 @@ public class InputDepositero {
     private String codigoDepositero;
     private String fechaIngreso;
     private String turno;
-    private String almacenAsignado;
     private String supervisor;
     private String horario;
     private String estado;
+    private Long sucursalId;
     private Long personaId;
 }

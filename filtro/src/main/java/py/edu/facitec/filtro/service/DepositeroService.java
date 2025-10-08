@@ -8,9 +8,11 @@ import py.edu.facitec.filtro.dto.InputDepositero;
 import py.edu.facitec.filtro.dto.PaginadorDto;
 import py.edu.facitec.filtro.entity.Persona;
 import py.edu.facitec.filtro.entity.Depositero;
+import py.edu.facitec.filtro.entity.Sucursal;
 import py.edu.facitec.filtro.enums.TipoPersona;
 import py.edu.facitec.filtro.repository.DepositeroRepository;
 import py.edu.facitec.filtro.repository.PersonaRepository;
+import py.edu.facitec.filtro.repository.SucursalRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,8 @@ import java.util.function.BiFunction;
 
 @Service
 public class DepositeroService {
+    @Autowired
+    private SucursalRepository sucursalRepository;
 
     @Autowired
     private DepositeroRepository depositeroRepository;
@@ -48,10 +52,15 @@ public class DepositeroService {
         d.setCodigoDepositero(input.getCodigoDepositero());
         d.setFechaIngreso(parseFecha(input.getFechaIngreso()));
         d.setTurno(input.getTurno());
-        d.setAlmacenAsignado(input.getAlmacenAsignado());
         d.setSupervisor(input.getSupervisor());
         d.setHorario(input.getHorario());
         d.setEstado(input.getEstado());
+
+        if (input.getSucursalId() != null) {
+            Sucursal sucursal = sucursalRepository.findById(input.getSucursalId())
+                    .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
+            d.setSucursal(sucursal);
+        }
 
         if (input.getPersonaId() != null) {
             Persona persona = personaRepository.findById(input.getPersonaId())
@@ -70,10 +79,15 @@ public class DepositeroService {
         d.setCodigoDepositero(input.getCodigoDepositero());
         d.setFechaIngreso(parseFecha(input.getFechaIngreso()));
         d.setTurno(input.getTurno());
-        d.setAlmacenAsignado(input.getAlmacenAsignado());
         d.setSupervisor(input.getSupervisor());
         d.setHorario(input.getHorario());
         d.setEstado(input.getEstado());
+
+        if (input.getSucursalId() != null) {
+            Sucursal sucursal = sucursalRepository.findById(input.getSucursalId())
+                    .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
+            d.setSucursal(sucursal);
+        }
 
         if (input.getPersonaId() != null) {
             Persona persona = personaRepository.findById(input.getPersonaId())

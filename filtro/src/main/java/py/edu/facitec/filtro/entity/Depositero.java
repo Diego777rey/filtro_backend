@@ -21,10 +21,12 @@ public class Depositero {
     private String codigoDepositero;
     private Date fechaIngreso;
     private String turno;
-    private String almacenAsignado;
     private String supervisor;
     private String horario;
     private String estado;
+    @ManyToOne
+    @JoinColumn(name = "sucursal_id") // referencia a la sucursal real
+    private Sucursal sucursal;
 
     @OneToOne
     @JoinColumn(name = "persona_id")

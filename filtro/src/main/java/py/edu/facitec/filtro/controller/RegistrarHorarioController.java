@@ -38,8 +38,8 @@ public class RegistrarHorarioController {
     }
 
     @QueryMapping
-    public List<RegistrarHorario> findRegistrarHorariosPorVendedor(@Argument Long vendedorId) {
-        return registrarHorarioService.findByPersonaId(vendedorId);
+    public List<RegistrarHorario> findRegistrarHorariosPorPersona(@Argument Long personaId) {
+        return registrarHorarioService.findByPersonaId(personaId);
     }
 
     // -------------------- MUTATIONS --------------------

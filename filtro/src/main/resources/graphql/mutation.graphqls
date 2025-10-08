@@ -1,4 +1,33 @@
 type Mutation {
+
+    createPedido(inputPedido: InputPedido!): Pedido
+    updatePedido(id: ID!, inputPedido: InputPedido!): Pedido
+    deletePedido(id: ID!): Pedido
+
+    createPedidoDetalle(inputPedidoDetalle: InputPedidoDetalle!): PedidoDetalle
+    updatePedidoDetalle(id: ID!, inputPedidoDetalle: InputPedidoDetalle!): PedidoDetalle
+    deletePedidoDetalle(id: ID!): PedidoDetalle
+
+    createTransferencia(inputTransferencia: InputTransferencia!): Transferencia
+    updateTransferencia(id: ID!, inputTransferencia: InputTransferencia!): Transferencia
+    deleteTransferencia(id: ID!): Transferencia
+
+    createTransferenciaDetalle(inputTransferenciaDetalle: InputTransferenciaDetalle!): TransferenciaDetalle
+    updateTransferenciaDetalle(id: ID!, inputTransferenciaDetalle: InputTransferenciaDetalle!): TransferenciaDetalle
+    deleteTransferenciaDetalle(id: ID!): TransferenciaDetalle
+
+    createSucursal(inputSucursal: InputSucursal!): Sucursal
+    updateSucursal(id: ID!, inputSucursal: InputSucursal!): Sucursal
+    deleteSucursal(id: ID!): Sucursal
+
+    createGasto(inputGasto: InputGasto!): Gasto
+    updateGasto(id: ID!, inputGasto: InputGasto!): Gasto
+    deleteGasto(id: ID!): Gasto
+
+    createInventario(inputInventario: InputInventario!): Inventario
+    updateInventario(id: ID!, inputInventario: InputInventario!): Inventario
+    deleteInventario(id: ID!): Inventario
+
     createVendedor(inputVendedor: InputVendedor!): Vendedor
     updateVendedor(id: ID!, inputVendedor: InputVendedor!): Vendedor
     deleteVendedor(id: ID!): Vendedor

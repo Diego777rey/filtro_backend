@@ -1,4 +1,24 @@
 type Query {
+    findTransferenciaById(transferenciaId: ID!): Transferencia
+    findAllTransferencias: [Transferencia]
+    findTranferenciasPaginated(page: Int!, size: Int!, search: String): PaginadorTransferencia
+
+    findGastoById(gastoId: ID!): Gasto
+    findAllGastos: [Gasto]
+    findGastosPaginated(page: Int!, size: Int!, search: String): PaginadorGasto
+
+    findInventarioById(inventarioId: ID!): Inventario
+    findAllInventarios: [Inventario]
+    findInventariosPaginated(page: Int!, size: Int!, search: String): PaginadorInventario
+
+    findPedidoById(pedidoId: ID!): Pedido
+    findAllPedidos: [Pedido]
+    findPedidosPaginated(page: Int!, size: Int!, search: String): PaginadorPedido
+
+    findSucursalById(sucursalId: ID!): Sucursal
+    findAllSucursales: [Sucursal]
+    findSucursalesPaginated(page: Int!, size: Int!, search: String): PaginadorSucursal
+
     findVendedorById(vendedorId: ID!): Vendedor
     findVendedoresPaginated(page: Int!, size: Int!, search: String): PaginadorVendedor
 
@@ -47,7 +67,7 @@ type Query {
 
     findRegistrarHorarioById(registrarHorarioId: ID!): RegistrarHorario
     findAllRegistrarHorarios: [RegistrarHorario]
-    findRegistrarHorariosPorVendedor(vendedorId: ID!): [RegistrarHorario]
+    findRegistrarHorariosPorPesona(personaId: ID!): [RegistrarHorario]
 }
 type Subscription  {
     findAllCategoriasFlux: [Categoria]
