@@ -12,8 +12,12 @@ import java.util.List;
 @Builder
 public class InputSucursal {
         private String nombre;
+        private String pais;
+        private String departamento;
+        private String ciudad;
         private String direccion;
         private String telefono;
         private List<Long> transferenciasOrigenIds;
         private List<Long> transferenciasDestinoIds;
+        private List<Long> productosIds;
 }

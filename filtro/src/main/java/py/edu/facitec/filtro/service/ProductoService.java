@@ -7,9 +7,11 @@ import py.edu.facitec.filtro.dto.PaginadorDto;
 import py.edu.facitec.filtro.entity.Categoria;
 import py.edu.facitec.filtro.entity.Producto;
 import py.edu.facitec.filtro.entity.Proveedor;
+import py.edu.facitec.filtro.entity.Sucursal;
 import py.edu.facitec.filtro.repository.CategoriaRepository;
 import py.edu.facitec.filtro.repository.ProductoRepository;
 import py.edu.facitec.filtro.repository.ProveedorRepository;
+import py.edu.facitec.filtro.repository.SucursalRepository;
 
 import java.util.List;
 
@@ -24,6 +26,8 @@ public class ProductoService {
     private CategoriaRepository categoriaRepository;
     @Autowired
     private ProveedorRepository proveedorRepository;
+    @Autowired
+    private SucursalRepository sucursalRepository;
 
     @Autowired
     private PaginadorService paginadorService;
@@ -47,6 +51,9 @@ public class ProductoService {
         Proveedor proveedor = proveedorRepository.findById(dto.getProveedorId())
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con id " + dto.getProveedorId()));
 
+        Sucursal sucursal = sucursalRepository.findById(dto.getSucursalId())
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrado con id " + dto.getSucursalId()));
+
         Producto producto = Producto.builder()
                 .codigoProducto(dto.getCodigoProducto())
                 .nombre(dto.getNombre())
@@ -57,6 +64,7 @@ public class ProductoService {
                 .productoEstado(dto.getProductoEstado())
                 .categoria(categoria)
                 .proveedor(proveedor)
+                .sucursal(sucursal)
                 .build();
 
         Producto saved = productoRepository.save(producto);
@@ -85,6 +93,10 @@ public class ProductoService {
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id " + dto.getCategoriaId()));
         producto.setCategoria(categoria);
+
+        Sucursal sucursal = sucursalRepository.findById(dto.getSucursalId())
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada con id " + dto.getSucursalId()));
+        producto.setSucursal(sucursal);
 
         Producto updated = productoRepository.save(producto);
         log.info("Producto actualizado: {}", updated.getNombre());

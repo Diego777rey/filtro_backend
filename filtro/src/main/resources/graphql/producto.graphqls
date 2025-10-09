@@ -9,6 +9,7 @@ type Producto{
     productoEstado: String!
     categoria: Categoria
     proveedor: Proveedor
+    sucursal: Sucursal!
 }
 input InputProducto{
     codigoProducto: String!
@@ -20,6 +21,7 @@ input InputProducto{
     productoEstado: String!
     categoriaId: ID
     proveedorId: ID
+    sucursalId: ID!
 }
 type PaginadorProducto{
     items: [Producto!]!

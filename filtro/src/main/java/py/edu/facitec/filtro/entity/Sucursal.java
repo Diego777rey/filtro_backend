@@ -21,18 +21,13 @@ public class Sucursal {
 
     @Column(nullable = false, length = 100)
     private String nombre;
+    private String pais;
+    private String departamento;
+    private String ciudad;
 
     @Column(length = 200)
     private String direccion;
 
     @Column(length = 50)
     private String telefono;
-
-    // Relación opcional bidireccional con Transferencias como origen
-    @OneToMany(mappedBy = "sucursalOrigen")
-    private List<Transferencia> transferenciasOrigen;
-
-    // Relación opcional bidireccional con Transferencias como destino
-    @OneToMany(mappedBy = "sucursalDestino")
-    private List<Transferencia> transferenciasDestino;
 }

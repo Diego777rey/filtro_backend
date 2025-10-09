@@ -6,6 +6,7 @@ type Inventario{
     stockAnterior: Int!
     stockNuevo: Int!
     motivo: String!
+    estadoInventario: EstadoInventario!
     producto: Producto!
     depositero: Depositero!
     ventaDetalle: VentaDetalle
@@ -17,6 +18,7 @@ input InputInventario{
     stockAnterior: Int!
     stockNuevo: Int!
     motivo: String!
+    estadoInventario: EstadoInventario!
     productoId: ID!
     depositeroId: ID!
     ventaDetalleId: ID
@@ -27,4 +29,9 @@ type PaginadorInventario{
     totalPages: Int!
     currentPage: Int!
     itemsCount: Int!
+}
+enum EstadoInventario {
+    FALTA
+    SOBRA
+    OK
 }

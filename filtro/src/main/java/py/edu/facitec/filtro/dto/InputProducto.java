@@ -21,4 +21,5 @@ public class InputProducto {
     private ProductoEstado productoEstado; // ACTIVO, INACTIVO
     private Long categoriaId;
     private Long proveedorId;
+    private Long sucursalId;
 }

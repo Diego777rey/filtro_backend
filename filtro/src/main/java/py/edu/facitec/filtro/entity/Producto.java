@@ -38,4 +38,8 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "proveedor_id")
     private Proveedor proveedor;
+
+    @ManyToOne
+    @JoinColumn(name = "sucursal_id", nullable = false)
+    private Sucursal sucursal;
 }

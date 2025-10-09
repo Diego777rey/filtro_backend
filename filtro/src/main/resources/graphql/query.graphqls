@@ -73,6 +73,9 @@ type Subscription  {
     findAllCategoriasFlux: [Categoria]
     findOneCategoriaMono(id: ID!): Categoria
 
+    findAllSucursalesFlux: [Sucursal]
+    findOneSucursalMono(id: ID!): Sucursal
+
     findAllCajasFlux: [Caja]
     findOneCajaMono(id: ID!): Caja
 }

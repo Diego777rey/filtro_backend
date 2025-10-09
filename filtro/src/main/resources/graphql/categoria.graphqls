@@ -6,6 +6,7 @@ type Categoria{
 input InputCategoria {
     nombre: String!
     categoriaEstado: String!
+    productoIds: [ID!]
 }
 type PaginadorCategoria {
     items: [Categoria!]!

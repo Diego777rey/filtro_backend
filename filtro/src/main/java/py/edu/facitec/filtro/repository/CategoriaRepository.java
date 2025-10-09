@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoriaRepository extends JpaRepository<Categoria,Long> {
-    Optional<Categoria> findByNombre(String descripcion);
-    Page<Categoria> findByNombreContainingIgnoreCase(String descripcion, Pageable pageable);
+    Optional<Categoria> findByNombre(String nombre);
+    Page<Categoria> findByNombreContainingIgnoreCase(String nombre, Pageable pageable);
     @Query("SELECT c FROM Categoria c " +
             "WHERE (:nombre IS NULL OR c.nombre LIKE %:nombre%) ")//aca realizamos una consulta y filtramos por nombre
-    List<Categoria> findByFiltros(String descripcion);
+    List<Categoria> findByFiltros(String nombre);
 }

@@ -1,17 +1,22 @@
 type Sucursal{
     id: ID!
     nombre: String!
+    pais: String!
+    departamento: String!
+    ciudad: String!
     direccion: String
     telefono: String
-    transferenciasOrigen: [Transferencia]
-    transferenciasDestino: [Transferencia]
 }
 input InputSucursal{
     nombre: String!
+    pais: String!
+    departamento: String!
+    ciudad: String!
     direccion: String
     telefono: String
     transferenciasOrigenIds: [ID]
     transferenciasDestinoIds: [ID]
+    productosIds: [ID]
 }
 type PaginadorSucursal {
     items: [Sucursal!]!

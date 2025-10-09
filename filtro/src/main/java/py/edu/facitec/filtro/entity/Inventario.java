@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import py.edu.facitec.filtro.enums.EstadoInventario;
 import py.edu.facitec.filtro.enums.TipoMovimiento;
 
 import java.util.Date;
@@ -26,7 +27,9 @@ public class Inventario {
     private Integer cantidad;
     private Integer stockAnterior;
     private Integer stockNuevo;
-    private String motivo; // COMPRA, VENTA, DEVOLUCION, AJUSTE
+    private String motivo;
+    @Enumerated(EnumType.STRING)//esto lo pongo para guardar como un string
+    private EstadoInventario estodoInventario; // COMPRA, VENTA, DEVOLUCION, AJUSTE
 
     @ManyToOne
     @JoinColumn(name = "producto_id")
